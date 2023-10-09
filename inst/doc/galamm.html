@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Introduction</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(galamm)</span></code></pre></div>
+<p>This vignette is aimed to give you a high-level overview of the types
+of models supported by the galamm package, and to point you to relevant
+vignettes where you can find more information.</p>
+<div id="generalized-additive-latent-and-mixed-models" class="section level2">
+<h2>Generalized Additive Latent and Mixed Models</h2>
+<p>Generalized additive latent and mixed models (GALAMMs) <span class="citation">(<a href="#ref-sorensenLongitudinalModelingAgeDependent2023">Sørensen,
+Fjell, and Walhovd 2023</a>)</span> is an extension of generalized
+linear latent and mixed models (GLLAMMs) <span class="citation">(<a href="#ref-rabe-heskethGeneralizedMultilevelStructural2004">Rabe-Hesketh,
+Skrondal, and Pickles 2004</a>; <a href="#ref-skrondalGeneralizedLatentVariable2004">Skrondal and
+Rabe-Hesketh 2004</a>)</span> which allows both observed responses and
+latent variables to depend smoothly on observed variables.
+<em>Smoothly</em> here means that the relationship is not assumed to
+follow a particular parametric form, e.g., as specified by a linear
+model. Instead, an <em>a priori</em> assumption is made that the
+relationship is smooth, and the model then attempts to learn the
+relationship from the data. GALAMM uses smoothing splines to obtain
+this, identically to how generalized additive models (GAMs) <span class="citation">(<a href="#ref-woodGeneralizedAdditiveModels2017a">Wood
+2017</a>)</span> are estimated.</p>
+<p>The GLLAMM framework contains many elements which are currently not
+implemented in the galamm package. This includes both nonparametric
+random effects and a large number of model families, e.g., for censored
+responses. If you need any of this, but not semiparametric estimation,
+the Stata based <a href="http://www.gllamm.org/">GLLAMM package</a> is
+likely the place you should go. Conversely, galamm incorporates crossed
+random effects easily and efficiently, while these are hard to specify
+using GLLAMM.</p>
+<div id="response-model" class="section level3">
+<h3>Response Model</h3>
+<p>GALAMMs are specified using three building blocks. First, <span class="math inline">\(n\)</span> responses <span class="math inline">\(y_{1}, \dots, y_{n}\)</span> are assumed
+independently distributed according to an exponential family with
+density</p>
+<p><span class="math display">\[
+f\left(y | \theta, \phi\right) = \exp \left( \frac{y\theta(\mu) -
+b\left(\theta(\mu)\right)}{\phi} + c\left(y, \phi\right) \right)
+\]</span></p>
+<p>here <span class="math inline">\(\mu = g^{-1}(\nu)\)</span> is the
+mean, <span class="math inline">\(g^{-1}(\cdot)\)</span> is the inverse
+of link function <span class="math inline">\(g(\cdot)\)</span>, <span class="math inline">\(\nu\)</span> is a “nonlinear predictor”, <span class="math inline">\(\phi\)</span> is a dispersion parameter, and <span class="math inline">\(b(\cdot)\)</span> and <span class="math inline">\(c(\cdot)\)</span> are known functions. In contrast
+to what is assumed, e.g., by <a href="https://cran.r-project.org/package=lme4">lme4</a> <span class="citation">(<a href="#ref-batesFittingLinearMixedEffects2015">Bates et al.
+2015</a>)</span>, the functions <span class="math inline">\(b(\cdot)\)</span>, <span class="math inline">\(c(\cdot)\)</span>, and <span class="math inline">\(g(\cdot)\)</span> are allowed to vary between
+observations. That is, the observations can come from different members
+of the exponential family. The vignette on <a href="https://lcbc-uio.github.io/galamm/articles/mixed_response.html">models
+with mixed response types</a> describes this in detail.</p>
+<p>Using canonical link functions, the response model simplifies to</p>
+<p><span class="math display">\[
+f\left(y | \nu, \phi\right) = \exp \left( \frac{y\nu -
+b\left(\nu\right)}{\phi} + c\left(y, \phi\right) \right)
+\]</span></p>
+</div>
+<div id="nonlinear-predictor" class="section level3">
+<h3>Nonlinear Predictor</h3>
+<p>Next, the nonlinear predictor, which corresponds to the measurement
+model in a classical structural equation model, is defined by</p>
+<p><span class="math display">\[
+\nu = \sum_{s=1}^{S} f_{s}\left(\mathbf{x}\right) +
+\sum_{l=2}^{L}\sum_{m=1}^{M_{l}} \eta_{m}^{(l)}
+\mathbf{z}^{(l)}_{m}{}^{&#39;}\boldsymbol{\lambda}_{m}^{(l)},
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf{x}\)</span> are explanatory
+variables, <span class="math inline">\(f_{s}(\mathbf{x})\)</span>, <span class="math inline">\(s=1,\dots,S\)</span> are smooth functions, <span class="math inline">\(\eta_{m}^{(l)}\)</span> are latent variables
+varying at level <span class="math inline">\(l\)</span>, and <span class="math inline">\(\boldsymbol{\lambda}_{m}^{(l)}{}^{T}
+\mathbf{z}_{m}^{(l)}\)</span> is the weighted sum of a vector of
+explanatory variables <span class="math inline">\(\mathbf{z}_{m}^{(l)}\)</span> varying at level
+<span class="math inline">\(l\)</span> and parameters <span class="math inline">\(\boldsymbol{\lambda}_{m}^{(l)}\)</span>. Let</p>
+<p><span class="math display">\[\boldsymbol{\eta}^{(l)} =
+[\eta_{1}^{(l)}, \dots, \eta_{M_{l}}^{(l)}]^{T} \in
+\mathbb{R}^{M_{l}}\]</span></p>
+<p>be the vector of all latent variables at level <span class="math inline">\(l\)</span>, and</p>
+<p><span class="math display">\[\boldsymbol{\eta} =
+[\boldsymbol{\eta}^{(2)}, \dots, \boldsymbol{\eta}^{(L)}]^{T} \in
+\mathbb{R}^{M}\]</span></p>
+<p>the vector of all latent variables belonging to a given level-2 unit,
+where <span class="math inline">\(M = \sum_{l=2}^{L} M_{l}\)</span>. The
+word “level” is here used to denote a grouping level; they are not
+necessarily hierarchical.</p>
+</div>
+</div>
+<div id="structural-model" class="section level2">
+<h2>Structural Model</h2>
+<p>The structural model specifies how the latent variables are related
+to each other and to observed variables, and is given by</p>
+<p><span class="math display">\[
+\boldsymbol{\eta} = \mathbf{B}\boldsymbol{\eta} +
+\mathbf{h}\left(\mathbf{w}\right)
++ \boldsymbol{\zeta}
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf{B}\)</span> is an <span class="math inline">\(M \times M\)</span> matrix of regression
+coefficients for regression among latent variables and <span class="math inline">\(\mathbf{w} \in \mathbb{R}^{Q}\)</span> is a vector
+of <span class="math inline">\(Q\)</span> predictors for the latent
+variables. <span class="math inline">\(\mathbf{h}(\mathbf{w}) =
+[\mathbf{h}_{2}(\mathbf{w}), \dots, \mathbf{h}_{L}(\mathbf{w})] \in
+\mathbb{R}^{M}\)</span> is a vector of smooth functions whose components
+<span class="math inline">\(\mathbf{h}_{l}(\mathbf{w}) \in
+\mathbb{R}^{M_{l}}\)</span> are vectors of functions predicting the
+latent variables varying at level <span class="math inline">\(l\)</span>, and depending on a subset of the
+elements <span class="math inline">\(\mathbf{w}\)</span>. <span class="math inline">\(\boldsymbol{\zeta}\)</span> is a vector of
+normally distributed random effects, <span class="math inline">\(\boldsymbol{\zeta}^{(l)} \sim N(\mathbf{0},
+\boldsymbol{\Psi}^{(l)})\)</span> for <span class="math inline">\(l=2,\dots,L\)</span>, where <span class="math inline">\(\boldsymbol{\Psi}^{(l)} \in \mathbb{R}^{M_{l}
+\times M_{l}}\)</span> is the covariance matrix of random effects at
+level <span class="math inline">\(l\)</span>. Defining the <span class="math inline">\(M \times M\)</span> covariance matrix <span class="math inline">\(\boldsymbol{\Psi} =
+\text{diag}(\boldsymbol{\Psi}^{(2)}, \dots,
+\boldsymbol{\Psi}^{(L)})\)</span>, we also have <span class="math inline">\(\boldsymbol{\zeta} \sim N(\mathbf{0},
+\boldsymbol{\Psi})\)</span>.</p>
+</div>
+<div id="mixed-model-representation" class="section level2">
+<h2>Mixed Model Representation</h2>
+<p>In <span class="citation">Sørensen, Fjell, and Walhovd (<a href="#ref-sorensenLongitudinalModelingAgeDependent2023">2023</a>)</span>
+we show that any model specified as above can be transformed to a
+GLLAMM, which is essentially a generalized nonlinear mixed model. This
+transformation is rather complex, so we won’t spell it out here, but the
+key steps are:</p>
+<ol style="list-style-type: decimal">
+<li>Converting smooth terms to their mixed model form.</li>
+<li>Estimate the resulting GLLAMM.</li>
+<li>Convert back to the original parametrization.</li>
+</ol>
+<p>In galamm we use the same transformations as the <a href="https://CRAN.R-project.org/package=gamm4">gamm4</a> package
+does.</p>
+</div>
+<div id="maximum-marginal-likelihood-estimation" class="section level2">
+<h2>Maximum Marginal Likelihood Estimation</h2>
+<p>In mixed model representation, the nonlinear predictor can be written
+on the form</p>
+<p><span class="math display">\[
+\boldsymbol{\nu} = \mathbf{X}(\boldsymbol{\lambda}, \mathbf{B})
+\boldsymbol{\beta} +  \mathbf{Z}(\boldsymbol{\lambda}, \mathbf{B})
+\boldsymbol{\zeta}
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf{X}(\boldsymbol{\lambda},
+\mathbf{B})\)</span> is the regression matrix for fixed effects <span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\mathbf{Z}(\boldsymbol{\lambda},
+\mathbf{B})\)</span> is the regression matrix for random effects <span class="math inline">\(\boldsymbol{\zeta}\)</span>. In contrast to with
+generalized linear mixed models, however, both matrices will in general
+depend on factor loadings <span class="math inline">\(\boldsymbol{\lambda}\)</span> and regression
+coefficients between latent variables <span class="math inline">\(\mathbf{B}\)</span>. Both of these are parameters
+that need to be estimated, and hence <span class="math inline">\(\mathbf{X}(\boldsymbol{\lambda},
+\mathbf{B})\)</span> and <span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\mathbf{Z}(\boldsymbol{\lambda},
+\mathbf{B})\)</span> need to be updated throughout the estimation
+process.</p>
+<div id="evaluating-the-marginal-likelihood" class="section level3">
+<h3>Evaluating the Marginal Likelihood</h3>
+<p>Plugging the nonlinear predictor into the structural model, we obtain
+the joint likelihood for the model. We then obtain the marginal
+likelihood by integrating over the random effects, yielding a marginal
+likelihood function of the form</p>
+<p><span class="math display">\[
+L\left(\boldsymbol{\beta}, \boldsymbol{\Lambda}, \boldsymbol{\Gamma},
+\boldsymbol{\lambda}, \mathbf{B}, \boldsymbol{\phi}\right) =  \left(2
+\pi \phi_{1}\right)^{-r/2}  \int_{\mathbb{R}^{r}} \exp\left(
+g\left(\boldsymbol{\beta}, \boldsymbol{\Lambda}, \boldsymbol{\Gamma},
+\boldsymbol{\lambda}, \mathbf{B}, \boldsymbol{\phi}, \mathbf{u}\right)
+\right) \text{d} \mathbf{u}
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf{u}\)</span> is a
+standardized version of <span class="math inline">\(\boldsymbol{\zeta}\)</span>. In order to evaluate
+the marginal likelihood at a given set of parameter values, we use the
+Laplace approximation combined with sparse matrix operations, extending
+<span class="citation">Bates et al. (<a href="#ref-batesFittingLinearMixedEffects2015">2015</a>)</span>’s
+algorithm for linear mixed models.</p>
+</div>
+<div id="maximizing-the-marginal-likelihood" class="section level3">
+<h3>Maximizing the Marginal Likelihood</h3>
+<p>We obtain maximum marginal likelihood estimates by maximizing <span class="math inline">\(L\left(\boldsymbol{\beta}, \boldsymbol{\Lambda},
+\boldsymbol{\Gamma}, \boldsymbol{\lambda}, \mathbf{B},
+\boldsymbol{\phi}\right)\)</span>, subject to possible constraints,
+e.g., that variances are non-negative. For this, we use the L-BFGS-B
+algorithm implement in <code>stats::optim</code>. The predicted values
+of random effects, <span class="math inline">\(\widehat{\mathbf{u}}\)</span> are obtained as
+posterior modes at the final estimates.</p>
+</div>
+</div>
+<div id="example-models" class="section level2">
+<h2>Example Models</h2>
+<p>To see how galamm is used in practice, take a look at the vignettes
+describing models with different components.</p>
+<ul>
+<li><a href="https://lcbc-uio.github.io/galamm/articles/lmm_factor.html">Linear
+mixed models with factor structures</a>.</li>
+<li><a href="https://lcbc-uio.github.io/galamm/articles/glmm_factor.html">Generalized
+linear mixed models with factor structures</a>.</li>
+<li><a href="https://lcbc-uio.github.io/galamm/articles/lmm_heteroscedastic.html">Linear
+mixed models with heteroscedastic residuals</a>.</li>
+<li><a href="https://lcbc-uio.github.io/galamm/articles/mixed_response.html">Mixed
+models with mixed response types</a>.</li>
+<li><a href="https://lcbc-uio.github.io/galamm/articles/semiparametric.html">Generalized
+additive mixed models with factor structures</a>.</li>
+</ul>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-batesFittingLinearMixedEffects2015" class="csl-entry">
+Bates, Douglas M, Martin Mächler, Ben Bolker, and Steve Walker. 2015.
+<span>“Fitting <span>Linear Mixed-Effects Models Using</span>
+Lme4.”</span> <em>Journal of Statistical Software</em> 67 (1): 1–48. <a href="https://doi.org/10.18637/jss.v067.i01">https://doi.org/10.18637/jss.v067.i01</a>.
+</div>
+<div id="ref-rabe-heskethGeneralizedMultilevelStructural2004" class="csl-entry">
+Rabe-Hesketh, Sophia, Anders Skrondal, and Andrew Pickles. 2004.
+<span>“Generalized Multilevel Structural Equation Modeling.”</span>
+<em>Psychometrika</em> 69 (2): 167–90. <a href="https://doi.org/10.1007/BF02295939">https://doi.org/10.1007/BF02295939</a>.
+</div>
+<div id="ref-skrondalGeneralizedLatentVariable2004" class="csl-entry">
+Skrondal, Anders, and Sophia Rabe-Hesketh. 2004. <em>Generalized Latent
+Variable Modeling</em>. Interdisciplinary <span>Statistics
+Series</span>. <span>Boca Raton, Florida</span>: <span>Chapman and
+Hall/CRC</span>.
+</div>
+<div id="ref-sorensenLongitudinalModelingAgeDependent2023" class="csl-entry">
+Sørensen, Øystein, Anders M. Fjell, and Kristine B. Walhovd. 2023.
+<span>“Longitudinal <span>Modeling</span> of <span>Age-Dependent Latent
+Traits</span> with <span>Generalized Additive Latent</span> and
+<span>Mixed Models</span>.”</span> <em>Psychometrika</em> 88 (2):
+456–86. <a href="https://doi.org/10.1007/s11336-023-09910-z">https://doi.org/10.1007/s11336-023-09910-z</a>.
+</div>
+<div id="ref-woodGeneralizedAdditiveModels2017a" class="csl-entry">
+Wood, Simon N. 2017. <em>Generalized Additive Models: <span>An</span>
+Introduction with <span>R</span></em>. 2nd ed. <span>Chapman and
+Hall/CRC</span>.
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
