@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/galamm)](https://cran.r-project.org/package=galamm)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -96,6 +98,12 @@ To get started, take a look at the [introductory
 vignette](https://lcbc-uio.github.io/galamm/articles/galamm.html).
 
 ## Installation
+
+Install the package from CRAN using
+
+``` r
+install.packages("galamm")
+```
 
 You can install the development version of galamm from
 [GitHub](https://github.com/) with:
@@ -201,7 +209,7 @@ the latent ability and random intercept for subject and timepoints.
 
 ``` r
 mod <- galamm(
-  formula = y ~ 0 + item + sl(x, load.var = "loading") +
+  formula = y ~ 0 + item + sl(x, factor = "loading") +
     (0 + loading | id / timepoint),
   data = dat,
   load.var = "item",
