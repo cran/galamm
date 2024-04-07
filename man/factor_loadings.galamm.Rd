@@ -37,7 +37,7 @@ loading_matrix <- matrix(c(1, NA, NA), ncol = 1)
 # Estimate model
 mod <- galamm(y ~ item + (0 + ability | sid) + (0 + ability | school),
   data = IRTsub, family = binomial, load.var = "item",
-  factor = list("ability"), lambda = list(loading_matrix)
+  factor = "ability", lambda = loading_matrix
 )
 
 # Show estimated factor loadings, with standard errors
@@ -57,8 +57,10 @@ Other details of model fit:
 \code{\link{family.galamm}()},
 \code{\link{fitted.galamm}()},
 \code{\link{fixef}()},
+\code{\link{formula.galamm}()},
 \code{\link{llikAIC}()},
 \code{\link{logLik.galamm}()},
+\code{\link{nobs.galamm}()},
 \code{\link{predict.galamm}()},
 \code{\link{print.VarCorr.galamm}()},
 \code{\link{ranef.galamm}()},
@@ -67,8 +69,8 @@ Other details of model fit:
 \code{\link{vcov.galamm}()}
 }
 \author{
-The example for this function comes from \code{PLmixed}, with
-authors Nicholas Rockwood and Minjeong Jeon
+The example for this function comes from \code{PLmixed}, with authors
+Nicholas Rockwood and Minjeong Jeon
 \insertCite{rockwoodEstimatingComplexMeasurement2019}{galamm}.
 }
 \concept{details of model fit}

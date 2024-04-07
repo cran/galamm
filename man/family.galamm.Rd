@@ -7,9 +7,10 @@
 \method{family}{galamm}(object, ...)
 }
 \arguments{
-\item{object}{An object of class \code{galamm}.}
+\item{object}{An object of class \code{galamm} returned from
+\code{\link{galamm}}.}
 
-\item{...}{Optional arguments. Currently not used.}
+\item{...}{Optional arguments passed on to other methods. Currently not used.}
 }
 \value{
 A list of family objects.
@@ -30,8 +31,8 @@ mixed_resp <- galamm(
   family = families,
   family_mapping = family_mapping,
   load.var = "itemgroup",
-  lambda = list(loading_matrix),
-  factor = list("level")
+  lambda = loading_matrix,
+  factor = "level"
 )
 
 # This model has two family objects
@@ -49,8 +50,10 @@ Other details of model fit:
 \code{\link{factor_loadings.galamm}()},
 \code{\link{fitted.galamm}()},
 \code{\link{fixef}()},
+\code{\link{formula.galamm}()},
 \code{\link{llikAIC}()},
 \code{\link{logLik.galamm}()},
+\code{\link{nobs.galamm}()},
 \code{\link{predict.galamm}()},
 \code{\link{print.VarCorr.galamm}()},
 \code{\link{ranef.galamm}()},

@@ -481,31 +481,27 @@ N_{3}\left(\mathbf{0},
 \]</span></p>
 <p>where <span class="math inline">\(N_{3}(a, b)\)</span> denotes a
 trivariate normal distribution with mean <span class="math inline">\(a\)</span> and covariance <span class="math inline">\(b\)</span>.</p>
-<p>In order to fit the model with galamm, we use the same syntax as
+<p>In order to fit the model with galamm, we use syntax similar to
 PLmixed, and start by defining the loading matrix. The first column
 contains <span class="math inline">\(\boldsymbol{\lambda}_{m}\)</span>
 and the second column contains <span class="math inline">\(\boldsymbol{\lambda}_{h}\)</span>. Numerical
 values in this matrix means that the entry is fixed to the given value,
 whereas <code>NA</code> means that the value is unknown, and should be
-estimated. We enclose the matrix in a list, because potentially there
-can be multiple matrices, and then each should be a list element.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>(loading_matrix <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">rbind</span>(</span>
+estimated.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>(loading_matrix <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>),</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">0</span>),</span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">1</span>),</span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="fu">c</span>(<span class="cn">NA</span>, <span class="cn">NA</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>)))</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2]</span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; [1,]    1    0</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; [2,]   NA    0</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; [3,]   NA    1</span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; [4,]   NA   NA</span></span></code></pre></div>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>))</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2]</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; [1,]    1    0</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; [2,]   NA    0</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; [3,]   NA    1</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; [4,]   NA   NA</span></span></code></pre></div>
 <p>We connect the loading matrix to variables in the dataframe with the
-following list of factors. Since the list of loading matrices has only a
-single element, also the list of factors has only a single element,
-which is one character vector for each column in the loading matrix.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>factors <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;ms&quot;</span>, <span class="st">&quot;hs&quot;</span>))</span></code></pre></div>
+following factors.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>factors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ms&quot;</span>, <span class="st">&quot;hs&quot;</span>)</span></code></pre></div>
 <p>Finally, we define the loading variable. This is a variable
 connecting rows of the dataframe to rows of the loading matrices. In
 this case, for each value of <code>time</code>, the corresponding row of
@@ -532,16 +528,17 @@ call.</p>
 <span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="at">lambda =</span> loading_matrix</span>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>)</span></code></pre></div>
 <p>The model could be fit with <code>PLmixed</code> using the following
-call with exactly the same arguments as to <code>galamm</code>. The
-reader is encouraged to try, and confirm that the results are
+call, which differs from the call to <code>galamm</code> in that
+<code>factor</code> and <code>lambda</code> must be put inside lists.
+The reader is encouraged to try, and confirm that the results are
 essentially equivalent, but we won’t run it in this vignette as it takes
 5-10 minutes.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>kyps_plmixed <span class="ot">&lt;-</span> <span class="fu">PLmixed</span>(</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="at">formula =</span> form,</span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="at">data =</span> KYPSsim,</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="at">factor =</span> factors,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="at">factor =</span> <span class="fu">list</span>(factors),</span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="at">load.var =</span> load.var,</span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="at">lambda =</span> loading_matrix</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="at">lambda =</span> <span class="fu">list</span>(loading_matrix)</span>
 <span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>)</span></code></pre></div>
 <p>Using galamm’s summary method, we can study the model output.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">summary</span>(mod)</span>
@@ -601,18 +598,17 @@ factor loadings. In particular, we could assume that the teacher effect
 in middle school has no effect on self esteem measured during high
 school, by setting the last two elements of <span class="math inline">\(\boldsymbol{\lambda}_{m}\)</span> to zero. We
 would then have the following loading matrix.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>(loading_matrix_constr1 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">rbind</span>(</span>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>(loading_matrix_constr1 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>),</span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">0</span>),</span>
 <span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
 <span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">NA</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>)))</span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2]</span></span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; [1,]    1    0</span></span>
-<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt; [2,]   NA    0</span></span>
-<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co">#&gt; [3,]    0    1</span></span>
-<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co">#&gt; [4,]    0   NA</span></span></code></pre></div>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>))</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2]</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt; [1,]    1    0</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; [2,]   NA    0</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt; [3,]    0    1</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co">#&gt; [4,]    0   NA</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>mod_constr1 <span class="ot">&lt;-</span> <span class="fu">galamm</span>(</span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="at">formula =</span> form,</span>
 <span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="at">data =</span> KYPSsim,</span>
@@ -625,18 +621,17 @@ would then have the following loading matrix.</p>
 identical, which in practice would lead to a linear mixed model with no
 factors. One way of estimating this model is to define a new loading
 matrix:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>(loading_matrix_constr2 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">rbind</span>(</span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>(loading_matrix_constr2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
 <span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>),</span>
 <span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>),</span>
 <span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
 <span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>)))</span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2]</span></span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="co">#&gt; [1,]    1    0</span></span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="co">#&gt; [2,]    1    0</span></span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#&gt; [3,]    0    1</span></span>
-<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="co">#&gt; [4,]    0    1</span></span></code></pre></div>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>))</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2]</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co">#&gt; [1,]    1    0</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="co">#&gt; [2,]    1    0</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="co">#&gt; [3,]    0    1</span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#&gt; [4,]    0    1</span></span></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>mod_constr2 <span class="ot">&lt;-</span> <span class="fu">galamm</span>(</span>
 <span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  <span class="at">formula =</span> form,</span>
 <span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="at">data =</span> KYPSsim,</span>
@@ -837,7 +832,7 @@ respectively.</p>
 mathematical model formulation just above, note that we don’t need to
 add the last column of only ones, since this column contains no
 parameters to be estimated.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>(loading_matrix <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">rbind</span>(</span>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>(loading_matrix <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
 <span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
 <span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>  <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">0</span>, <span class="cn">NA</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
 <span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>  <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">0</span>, <span class="cn">NA</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
@@ -850,29 +845,28 @@ parameters to be estimated.</p>
 <span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>),</span>
 <span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="cn">NA</span>),</span>
 <span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="cn">NA</span>)</span>
-<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a>)))</span>
-<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
-<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a><span class="co">#&gt;       [,1] [,2] [,3] [,4] [,5] [,6]</span></span>
-<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a><span class="co">#&gt;  [1,]    1    0    1    0    0    0</span></span>
-<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a><span class="co">#&gt;  [2,]   NA    0   NA    0    0    0</span></span>
-<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a><span class="co">#&gt;  [3,]   NA    0   NA    0    0    0</span></span>
-<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a><span class="co">#&gt;  [4,]    0    1    0    1    0    0</span></span>
-<span id="cb23-21"><a href="#cb23-21" tabindex="-1"></a><span class="co">#&gt;  [5,]    0   NA    0   NA    0    0</span></span>
-<span id="cb23-22"><a href="#cb23-22" tabindex="-1"></a><span class="co">#&gt;  [6,]    0   NA    0   NA    0    0</span></span>
-<span id="cb23-23"><a href="#cb23-23" tabindex="-1"></a><span class="co">#&gt;  [7,]    0    0    0    0    1    0</span></span>
-<span id="cb23-24"><a href="#cb23-24" tabindex="-1"></a><span class="co">#&gt;  [8,]    0    0    0    0   NA    0</span></span>
-<span id="cb23-25"><a href="#cb23-25" tabindex="-1"></a><span class="co">#&gt;  [9,]    0    0    0    0   NA    0</span></span>
-<span id="cb23-26"><a href="#cb23-26" tabindex="-1"></a><span class="co">#&gt; [10,]    0    0    0    0    0    1</span></span>
-<span id="cb23-27"><a href="#cb23-27" tabindex="-1"></a><span class="co">#&gt; [11,]    0    0    0    0    0   NA</span></span>
-<span id="cb23-28"><a href="#cb23-28" tabindex="-1"></a><span class="co">#&gt; [12,]    0    0    0    0    0   NA</span></span></code></pre></div>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a>))</span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a><span class="co">#&gt;       [,1] [,2] [,3] [,4] [,5] [,6]</span></span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a><span class="co">#&gt;  [1,]    1    0    1    0    0    0</span></span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a><span class="co">#&gt;  [2,]   NA    0   NA    0    0    0</span></span>
+<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a><span class="co">#&gt;  [3,]   NA    0   NA    0    0    0</span></span>
+<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a><span class="co">#&gt;  [4,]    0    1    0    1    0    0</span></span>
+<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a><span class="co">#&gt;  [5,]    0   NA    0   NA    0    0</span></span>
+<span id="cb23-21"><a href="#cb23-21" tabindex="-1"></a><span class="co">#&gt;  [6,]    0   NA    0   NA    0    0</span></span>
+<span id="cb23-22"><a href="#cb23-22" tabindex="-1"></a><span class="co">#&gt;  [7,]    0    0    0    0    1    0</span></span>
+<span id="cb23-23"><a href="#cb23-23" tabindex="-1"></a><span class="co">#&gt;  [8,]    0    0    0    0   NA    0</span></span>
+<span id="cb23-24"><a href="#cb23-24" tabindex="-1"></a><span class="co">#&gt;  [9,]    0    0    0    0   NA    0</span></span>
+<span id="cb23-25"><a href="#cb23-25" tabindex="-1"></a><span class="co">#&gt; [10,]    0    0    0    0    0    1</span></span>
+<span id="cb23-26"><a href="#cb23-26" tabindex="-1"></a><span class="co">#&gt; [11,]    0    0    0    0    0   NA</span></span>
+<span id="cb23-27"><a href="#cb23-27" tabindex="-1"></a><span class="co">#&gt; [12,]    0    0    0    0    0   NA</span></span></code></pre></div>
 <p>Next, we specify the factors in the order they appear in the columns
 of the loading matrix. We can choose whichever names we like for the
 factors, except for names of existing variables in the dataset, but we
 must make sure they match the names used in the formula.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>factors <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(</span>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>factors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
 <span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>  <span class="st">&quot;teacher1&quot;</span>, <span class="st">&quot;teacher2&quot;</span>, <span class="st">&quot;trait1.t&quot;</span>,</span>
 <span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>  <span class="st">&quot;trait2.t&quot;</span>, <span class="st">&quot;trait1.s&quot;</span>, <span class="st">&quot;trait2.s&quot;</span></span>
-<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>))</span></code></pre></div>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>)</span></code></pre></div>
 <p>The formula is defined as follows, where have have placed the terms
 in the same order as they appear in the mathematical model in
 matrix-vector form specified above.</p>
@@ -885,12 +879,12 @@ with galamm.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>judge_plmixed <span class="ot">&lt;-</span> <span class="fu">PLmixed</span>(</span>
 <span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>  <span class="at">formula =</span> form,</span>
 <span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>  <span class="at">data =</span> JUDGEsim,</span>
-<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>  <span class="at">lambda =</span> loading_matrix,</span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>  <span class="at">lambda =</span> <span class="fu">list</span>(loading_matrix),</span>
 <span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>  <span class="at">load.var =</span> <span class="st">&quot;item&quot;</span>,</span>
-<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>  <span class="at">factor =</span> factors</span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>  <span class="at">factor =</span> <span class="fu">list</span>(factors)</span>
 <span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>)</span></code></pre></div>
-<p>We get identical results using <code>galamm</code> in less than five
-minutes.</p>
+<p>We get identical results using <code>galamm</code>, and it takes less
+than five minutes.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>judge_galamm <span class="ot">&lt;-</span> <span class="fu">galamm</span>(</span>
 <span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>  <span class="at">formula =</span> form,</span>
 <span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>  <span class="at">data =</span> JUDGEsim,</span>
@@ -911,67 +905,46 @@ minutes.</p>
 <span id="cb28-11"><a href="#cb28-11" tabindex="-1"></a><span class="co">#&gt; -3.8407 -0.6439  0.0017  0.6474  3.9799 </span></span>
 <span id="cb28-12"><a href="#cb28-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb28-13"><a href="#cb28-13" tabindex="-1"></a><span class="co">#&gt; Lambda:</span></span>
-<span id="cb28-14"><a href="#cb28-14" tabindex="-1"></a><span class="co">#&gt;          teacher1      SE teacher2      SE trait1.t      SE trait2.t      SE trait1.s</span></span>
-<span id="cb28-15"><a href="#cb28-15" tabindex="-1"></a><span class="co">#&gt; lambda1    1.0000       .        .       .    1.000       .        .       .        .</span></span>
-<span id="cb28-16"><a href="#cb28-16" tabindex="-1"></a><span class="co">#&gt; lambda2    1.1278 0.03584        .       .    1.092 0.02172        .       .        .</span></span>
-<span id="cb28-17"><a href="#cb28-17" tabindex="-1"></a><span class="co">#&gt; lambda3    0.9986 0.03345        .       .    1.066 0.02144        .       .        .</span></span>
-<span id="cb28-18"><a href="#cb28-18" tabindex="-1"></a><span class="co">#&gt; lambda4         .       .   1.0000       .        .       .   1.0000       .        .</span></span>
-<span id="cb28-19"><a href="#cb28-19" tabindex="-1"></a><span class="co">#&gt; lambda5         .       .   0.9725 0.03036        .       .   1.0536 0.02576        .</span></span>
-<span id="cb28-20"><a href="#cb28-20" tabindex="-1"></a><span class="co">#&gt; lambda6         .       .   1.2191 0.03436        .       .   0.9581 0.02460        .</span></span>
-<span id="cb28-21"><a href="#cb28-21" tabindex="-1"></a><span class="co">#&gt; lambda7         .       .        .       .        .       .        .       .    1.000</span></span>
-<span id="cb28-22"><a href="#cb28-22" tabindex="-1"></a><span class="co">#&gt; lambda8         .       .        .       .        .       .        .       .    1.322</span></span>
-<span id="cb28-23"><a href="#cb28-23" tabindex="-1"></a><span class="co">#&gt; lambda9         .       .        .       .        .       .        .       .    1.145</span></span>
-<span id="cb28-24"><a href="#cb28-24" tabindex="-1"></a><span class="co">#&gt; lambda10        .       .        .       .        .       .        .       .        .</span></span>
-<span id="cb28-25"><a href="#cb28-25" tabindex="-1"></a><span class="co">#&gt; lambda11        .       .        .       .        .       .        .       .        .</span></span>
-<span id="cb28-26"><a href="#cb28-26" tabindex="-1"></a><span class="co">#&gt; lambda12        .       .        .       .        .       .        .       .        .</span></span>
-<span id="cb28-27"><a href="#cb28-27" tabindex="-1"></a><span class="co">#&gt;               SE trait2.s      SE</span></span>
-<span id="cb28-28"><a href="#cb28-28" tabindex="-1"></a><span class="co">#&gt; lambda1        .        .       .</span></span>
-<span id="cb28-29"><a href="#cb28-29" tabindex="-1"></a><span class="co">#&gt; lambda2        .        .       .</span></span>
-<span id="cb28-30"><a href="#cb28-30" tabindex="-1"></a><span class="co">#&gt; lambda3        .        .       .</span></span>
-<span id="cb28-31"><a href="#cb28-31" tabindex="-1"></a><span class="co">#&gt; lambda4        .        .       .</span></span>
-<span id="cb28-32"><a href="#cb28-32" tabindex="-1"></a><span class="co">#&gt; lambda5        .        .       .</span></span>
-<span id="cb28-33"><a href="#cb28-33" tabindex="-1"></a><span class="co">#&gt; lambda6        .        .       .</span></span>
-<span id="cb28-34"><a href="#cb28-34" tabindex="-1"></a><span class="co">#&gt; lambda7        .        .       .</span></span>
-<span id="cb28-35"><a href="#cb28-35" tabindex="-1"></a><span class="co">#&gt; lambda8  0.06109        .       .</span></span>
-<span id="cb28-36"><a href="#cb28-36" tabindex="-1"></a><span class="co">#&gt; lambda9  0.05633        .       .</span></span>
-<span id="cb28-37"><a href="#cb28-37" tabindex="-1"></a><span class="co">#&gt; lambda10       .    1.000       .</span></span>
-<span id="cb28-38"><a href="#cb28-38" tabindex="-1"></a><span class="co">#&gt; lambda11       .    0.874 0.04417</span></span>
-<span id="cb28-39"><a href="#cb28-39" tabindex="-1"></a><span class="co">#&gt; lambda12       .    1.096 0.04874</span></span>
-<span id="cb28-40"><a href="#cb28-40" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb28-41"><a href="#cb28-41" tabindex="-1"></a><span class="co">#&gt; Random effects:</span></span>
-<span id="cb28-42"><a href="#cb28-42" tabindex="-1"></a><span class="co">#&gt;  Groups   Name        Variance Std.Dev. Corr          </span></span>
-<span id="cb28-43"><a href="#cb28-43" tabindex="-1"></a><span class="co">#&gt;  stu      trait1.t    0.24025  0.4902                 </span></span>
-<span id="cb28-44"><a href="#cb28-44" tabindex="-1"></a><span class="co">#&gt;           trait2.t    0.16872  0.4108   0.86          </span></span>
-<span id="cb28-45"><a href="#cb28-45" tabindex="-1"></a><span class="co">#&gt;           trait1.s    0.29588  0.5439   0.46 0.40     </span></span>
-<span id="cb28-46"><a href="#cb28-46" tabindex="-1"></a><span class="co">#&gt;           trait2.s    0.37690  0.6139   0.20 0.30 0.40</span></span>
-<span id="cb28-47"><a href="#cb28-47" tabindex="-1"></a><span class="co">#&gt;  tch      teacher1    0.09704  0.3115                 </span></span>
-<span id="cb28-48"><a href="#cb28-48" tabindex="-1"></a><span class="co">#&gt;           teacher2    0.11321  0.3365   0.44          </span></span>
-<span id="cb28-49"><a href="#cb28-49" tabindex="-1"></a><span class="co">#&gt;  class    (Intercept) 0.00000  0.0000                 </span></span>
-<span id="cb28-50"><a href="#cb28-50" tabindex="-1"></a><span class="co">#&gt;  Residual             0.39044  0.6249                 </span></span>
-<span id="cb28-51"><a href="#cb28-51" tabindex="-1"></a><span class="co">#&gt; Number of obs: 54462, groups:  stu, 1249; tch, 390; class, 125</span></span>
-<span id="cb28-52"><a href="#cb28-52" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb28-53"><a href="#cb28-53" tabindex="-1"></a><span class="co">#&gt; Fixed effects:</span></span>
-<span id="cb28-54"><a href="#cb28-54" tabindex="-1"></a><span class="co">#&gt;        Estimate Std. Error t value Pr(&gt;|t|)</span></span>
-<span id="cb28-55"><a href="#cb28-55" tabindex="-1"></a><span class="co">#&gt; item1     3.399    0.02270  149.72        0</span></span>
-<span id="cb28-56"><a href="#cb28-56" tabindex="-1"></a><span class="co">#&gt; item2     3.363    0.02502  134.42        0</span></span>
-<span id="cb28-57"><a href="#cb28-57" tabindex="-1"></a><span class="co">#&gt; item3     3.362    0.02329  144.38        0</span></span>
-<span id="cb28-58"><a href="#cb28-58" tabindex="-1"></a><span class="co">#&gt; item4     2.820    0.02226  126.65        0</span></span>
-<span id="cb28-59"><a href="#cb28-59" tabindex="-1"></a><span class="co">#&gt; item5     2.939    0.02225  132.08        0</span></span>
-<span id="cb28-60"><a href="#cb28-60" tabindex="-1"></a><span class="co">#&gt; item6     2.877    0.02512  114.53        0</span></span>
-<span id="cb28-61"><a href="#cb28-61" tabindex="-1"></a><span class="co">#&gt; item7     3.426    0.02344  146.16        0</span></span>
-<span id="cb28-62"><a href="#cb28-62" tabindex="-1"></a><span class="co">#&gt; item8     3.552    0.02696  131.77        0</span></span>
-<span id="cb28-63"><a href="#cb28-63" tabindex="-1"></a><span class="co">#&gt; item9     3.597    0.02496  144.11        0</span></span>
-<span id="cb28-64"><a href="#cb28-64" tabindex="-1"></a><span class="co">#&gt; item10    2.334    0.02479   94.17        0</span></span>
-<span id="cb28-65"><a href="#cb28-65" tabindex="-1"></a><span class="co">#&gt; item11    2.909    0.02330  124.83        0</span></span>
-<span id="cb28-66"><a href="#cb28-66" tabindex="-1"></a><span class="co">#&gt; item12    2.470    0.02599   95.07        0</span></span></code></pre></div>
-</div>
-<div id="model-with-a-product-of-factor-loadings" class="section level2">
-<h2>Model with a Product of Factor Loadings</h2>
-<p>Finally, in their Example 2, <span class="citation">Rockwood and Jeon
-(<a href="#ref-rockwoodEstimatingComplexMeasurement2019">2019</a>)</span>
-consider a model which contains products of factor loadings. At the
-moment, such a model cannot be estimated using galamm, although we will
-work on adding it in the future.</p>
+<span id="cb28-14"><a href="#cb28-14" tabindex="-1"></a><span class="co">#&gt;          teacher1      SE teacher2      SE trait1.t      SE trait2.t      SE trait1.s      SE trait2.s      SE</span></span>
+<span id="cb28-15"><a href="#cb28-15" tabindex="-1"></a><span class="co">#&gt; lambda1    1.0000       .        .       .    1.000       .        .       .        .       .        .       .</span></span>
+<span id="cb28-16"><a href="#cb28-16" tabindex="-1"></a><span class="co">#&gt; lambda2    1.1278 0.03584        .       .    1.092 0.02172        .       .        .       .        .       .</span></span>
+<span id="cb28-17"><a href="#cb28-17" tabindex="-1"></a><span class="co">#&gt; lambda3    0.9986 0.03345        .       .    1.066 0.02144        .       .        .       .        .       .</span></span>
+<span id="cb28-18"><a href="#cb28-18" tabindex="-1"></a><span class="co">#&gt; lambda4         .       .   1.0000       .        .       .   1.0000       .        .       .        .       .</span></span>
+<span id="cb28-19"><a href="#cb28-19" tabindex="-1"></a><span class="co">#&gt; lambda5         .       .   0.9725 0.03036        .       .   1.0536 0.02576        .       .        .       .</span></span>
+<span id="cb28-20"><a href="#cb28-20" tabindex="-1"></a><span class="co">#&gt; lambda6         .       .   1.2191 0.03436        .       .   0.9581 0.02460        .       .        .       .</span></span>
+<span id="cb28-21"><a href="#cb28-21" tabindex="-1"></a><span class="co">#&gt; lambda7         .       .        .       .        .       .        .       .    1.000       .        .       .</span></span>
+<span id="cb28-22"><a href="#cb28-22" tabindex="-1"></a><span class="co">#&gt; lambda8         .       .        .       .        .       .        .       .    1.322 0.06109        .       .</span></span>
+<span id="cb28-23"><a href="#cb28-23" tabindex="-1"></a><span class="co">#&gt; lambda9         .       .        .       .        .       .        .       .    1.145 0.05633        .       .</span></span>
+<span id="cb28-24"><a href="#cb28-24" tabindex="-1"></a><span class="co">#&gt; lambda10        .       .        .       .        .       .        .       .        .       .    1.000       .</span></span>
+<span id="cb28-25"><a href="#cb28-25" tabindex="-1"></a><span class="co">#&gt; lambda11        .       .        .       .        .       .        .       .        .       .    0.874 0.04417</span></span>
+<span id="cb28-26"><a href="#cb28-26" tabindex="-1"></a><span class="co">#&gt; lambda12        .       .        .       .        .       .        .       .        .       .    1.096 0.04874</span></span>
+<span id="cb28-27"><a href="#cb28-27" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb28-28"><a href="#cb28-28" tabindex="-1"></a><span class="co">#&gt; Random effects:</span></span>
+<span id="cb28-29"><a href="#cb28-29" tabindex="-1"></a><span class="co">#&gt;  Groups   Name        Variance Std.Dev. Corr          </span></span>
+<span id="cb28-30"><a href="#cb28-30" tabindex="-1"></a><span class="co">#&gt;  stu      trait1.t    0.24025  0.4902                 </span></span>
+<span id="cb28-31"><a href="#cb28-31" tabindex="-1"></a><span class="co">#&gt;           trait2.t    0.16872  0.4108   0.86          </span></span>
+<span id="cb28-32"><a href="#cb28-32" tabindex="-1"></a><span class="co">#&gt;           trait1.s    0.29588  0.5439   0.46 0.40     </span></span>
+<span id="cb28-33"><a href="#cb28-33" tabindex="-1"></a><span class="co">#&gt;           trait2.s    0.37690  0.6139   0.20 0.30 0.40</span></span>
+<span id="cb28-34"><a href="#cb28-34" tabindex="-1"></a><span class="co">#&gt;  tch      teacher1    0.09704  0.3115                 </span></span>
+<span id="cb28-35"><a href="#cb28-35" tabindex="-1"></a><span class="co">#&gt;           teacher2    0.11321  0.3365   0.44          </span></span>
+<span id="cb28-36"><a href="#cb28-36" tabindex="-1"></a><span class="co">#&gt;  class    (Intercept) 0.00000  0.0000                 </span></span>
+<span id="cb28-37"><a href="#cb28-37" tabindex="-1"></a><span class="co">#&gt;  Residual             0.39044  0.6249                 </span></span>
+<span id="cb28-38"><a href="#cb28-38" tabindex="-1"></a><span class="co">#&gt; Number of obs: 54462, groups:  stu, 1249; tch, 390; class, 125</span></span>
+<span id="cb28-39"><a href="#cb28-39" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb28-40"><a href="#cb28-40" tabindex="-1"></a><span class="co">#&gt; Fixed effects:</span></span>
+<span id="cb28-41"><a href="#cb28-41" tabindex="-1"></a><span class="co">#&gt;        Estimate Std. Error t value Pr(&gt;|t|)</span></span>
+<span id="cb28-42"><a href="#cb28-42" tabindex="-1"></a><span class="co">#&gt; item1     3.399    0.02270  149.72        0</span></span>
+<span id="cb28-43"><a href="#cb28-43" tabindex="-1"></a><span class="co">#&gt; item2     3.363    0.02502  134.42        0</span></span>
+<span id="cb28-44"><a href="#cb28-44" tabindex="-1"></a><span class="co">#&gt; item3     3.362    0.02329  144.38        0</span></span>
+<span id="cb28-45"><a href="#cb28-45" tabindex="-1"></a><span class="co">#&gt; item4     2.820    0.02226  126.65        0</span></span>
+<span id="cb28-46"><a href="#cb28-46" tabindex="-1"></a><span class="co">#&gt; item5     2.939    0.02225  132.08        0</span></span>
+<span id="cb28-47"><a href="#cb28-47" tabindex="-1"></a><span class="co">#&gt; item6     2.877    0.02512  114.53        0</span></span>
+<span id="cb28-48"><a href="#cb28-48" tabindex="-1"></a><span class="co">#&gt; item7     3.426    0.02344  146.16        0</span></span>
+<span id="cb28-49"><a href="#cb28-49" tabindex="-1"></a><span class="co">#&gt; item8     3.552    0.02696  131.77        0</span></span>
+<span id="cb28-50"><a href="#cb28-50" tabindex="-1"></a><span class="co">#&gt; item9     3.597    0.02496  144.11        0</span></span>
+<span id="cb28-51"><a href="#cb28-51" tabindex="-1"></a><span class="co">#&gt; item10    2.334    0.02479   94.17        0</span></span>
+<span id="cb28-52"><a href="#cb28-52" tabindex="-1"></a><span class="co">#&gt; item11    2.909    0.02330  124.83        0</span></span>
+<span id="cb28-53"><a href="#cb28-53" tabindex="-1"></a><span class="co">#&gt; item12    2.470    0.02599   95.07        0</span></span></code></pre></div>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="unnumbered">References</h1>
@@ -1011,8 +984,7 @@ Research</em> 54 (2): 288–306. <a href="https://doi.org/10.1080/00273171.2018.
 <div id="ref-skrondalGeneralizedLatentVariable2004" class="csl-entry">
 Skrondal, Anders, and Sophia Rabe-Hesketh. 2004. <em>Generalized Latent
 Variable Modeling</em>. Interdisciplinary <span>Statistics
-Series</span>. <span>Boca Raton, Florida</span>: <span>Chapman and
-Hall/CRC</span>.
+Series</span>. Boca Raton, Florida: <span>Chapman and Hall/CRC</span>.
 </div>
 <div id="ref-sorensenLongitudinalModelingAgeDependent2023" class="csl-entry">
 Sørensen, Øystein, Anders M. Fjell, and Kristine B. Walhovd. 2023.

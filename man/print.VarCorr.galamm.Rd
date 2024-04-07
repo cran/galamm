@@ -13,17 +13,18 @@
 )
 }
 \arguments{
-\item{x}{An object of class \code{VarCorr.galamm}, returned from
-\code{\link{VarCorr.galamm}}.}
+\item{x}{An object of class \code{c("VarCorr.galamm", "VarCorr.merMod")},
+returned from \code{\link{VarCorr.galamm}}.}
 
 \item{digits}{Optional arguments specifying number of digits to use when
 printing.}
 
 \item{comp}{Character vector of length 1 or 2 specifying which variance
-components to print.}
+components to print. Case sensitive. Can take one of the values "Std.Dev."
+and "Variance".}
 
-\item{corr}{Boolean indicating whether covariances or correlations should be
-printed.}
+\item{corr}{Logical value indicating whether covariances or correlations
+should be printed.}
 
 \item{...}{Optional arguments passed on to other methods. Currently not used.}
 }
@@ -62,8 +63,10 @@ Other details of model fit:
 \code{\link{family.galamm}()},
 \code{\link{fitted.galamm}()},
 \code{\link{fixef}()},
+\code{\link{formula.galamm}()},
 \code{\link{llikAIC}()},
 \code{\link{logLik.galamm}()},
+\code{\link{nobs.galamm}()},
 \code{\link{predict.galamm}()},
 \code{\link{ranef.galamm}()},
 \code{\link{residuals.galamm}()},

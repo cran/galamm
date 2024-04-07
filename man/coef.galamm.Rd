@@ -9,8 +9,7 @@
 \arguments{
 \item{object}{An object of class \code{galamm}, from \code{\link{galamm}}.}
 
-\item{...}{Additional parameters passed on to other methods. Currently not
-used.}
+\item{...}{Optional arguments passed on to other methods. Currently not used.}
 }
 \value{
 A matrix with the requested coefficients.
@@ -41,8 +40,10 @@ Other details of model fit:
 \code{\link{family.galamm}()},
 \code{\link{fitted.galamm}()},
 \code{\link{fixef}()},
+\code{\link{formula.galamm}()},
 \code{\link{llikAIC}()},
 \code{\link{logLik.galamm}()},
+\code{\link{nobs.galamm}()},
 \code{\link{predict.galamm}()},
 \code{\link{print.VarCorr.galamm}()},
 \code{\link{ranef.galamm}()},

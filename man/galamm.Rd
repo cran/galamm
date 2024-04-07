@@ -9,11 +9,12 @@ galamm(
   weights = NULL,
   data,
   family = gaussian,
-  family_mapping = rep(1L, nrow(data)),
+  family_mapping = rep(1, nrow(data)),
   load.var = NULL,
   lambda = NULL,
   factor = NULL,
   factor_interactions = NULL,
+  na.action = getOption("na.action"),
   start = NULL,
   control = galamm_control()
 )
@@ -37,49 +38,67 @@ examples for details.}
 \item{data}{A data.frame containing all the variables specified by the model
 formula, with the exception of factor loadings.}
 
-\item{family}{A vector containing one or more model families. For each
-element in \code{family} there should be a corresponding element in
-\code{family_mapping} specifying which elements of the response are
-conditionally distributed according to the given family. Currently family
-can be one of \code{gaussian}, \code{binomial}, and \code{poisson}, and
-only canonical link functions are supported.}
+\item{family}{A a list or character vector containing one or more model
+families. For each element in \code{family} there should be a corresponding
+element in \code{family_mapping} specifying which elements of the response
+are conditionally distributed according to the given family. Currently
+family can be one of \code{gaussian}, \code{binomial}, and \code{poisson},
+and only canonical link functions are supported. The family arguments can
+either be provided as character values, e.g., \code{c("gaussian",
+  "poisson")} or \code{list("gaussian", "poisson")}, as function names, e.g.,
+\code{c(gaussian, poisson)} or \code{list(gaussian, poisson)}, or as
+function calls, e.g., \code{list(gaussian(), poisson())}. In the latter
+case, they must be provided in a list, and bot as a vector. Mixing the
+different ways of describing the family also works, e.g.,
+\code{list("gaussian", poisson())}, but in this case they must be provided
+in a list. When provided as character values, the argument is case
+sensitive.}
 
-\item{family_mapping}{Optional integer vector mapping from the elements of
-\code{family} to rows of \code{data}. Defaults to \code{rep(1L,
+\item{family_mapping}{Optional vector mapping from the elements of
+\code{family} to rows of \code{data}. Defaults to \code{rep(1,
   nrow(data))}, which means that all observations are distributed according
-to the first element of \code{family}.}
+to the first element of \code{family}. The length of \code{family_mapping}
+must be identical to the number of observations, \code{nrow(data)}.}
 
 \item{load.var}{Optional character specifying the name of the variable in
-\code{data} identifying what the factors load onto. That is, each unique
-value of \code{load.var} corresponds to a unique factor loading. Currently
-only a single loading is supported, so \code{load.var} must have length
-one. Default to \code{NULL}, which means that there are no loading
-variables.}
+\code{data} identifying what the factors load onto. Default to \code{NULL},
+which means that there are no loading variables. Argument is case
+sensitive.}
 
-\item{lambda}{Optional list of factor loading matrices. Numerical values
-indicate that the given value is fixed, while \code{NA} means that the
-entry is a parameter to be estimated. Defaults to \code{NULL}, which means
-that there are no factor loading matrices.}
+\item{lambda}{Optional factor loading matrix. Numerical values indicate that
+the given value is fixed, while \code{NA} means that the entry is a
+parameter to be estimated. Numerical values can only take the values 0 or
+\enumerate{
+\item The number of columns of \code{lambda} must be identical to the number
+of elements in \code{factor}. Defaults to \code{NULL}, which means that
+there is no factor loading matrix. If \code{lambda} is provided as a
+vector, it will be converted to a \code{matrix} with a single column.
+}}
 
-\item{factor}{Optional list of character vectors identical to the factor
-loadings specified in \code{formula}. For each list element, the \eqn{j}th
-entry in the character vector corresponds to the \eqn{j}th column of the
-corresponding matrix in \code{lambda}. Defaults to \code{NULL}, which means
-that there are no factor loadings.}
+\item{factor}{Optional character vector whose \eqn{j}th entry corresponds to
+the \eqn{j}th column of the corresponding matrix in \code{lambda}. The
+number of elements in \code{factor} must be equal to the number of columns
+in \code{lambda}. Defaults to \code{NULL}, which means that there are no
+factor loadings. Argument is case sensitive.}
 
-\item{factor_interactions}{Optional list of length equal to the list provided
-in the \code{factor} argument. If provided, each element of the lists
-should itself be a list of length equal to the number of columns in the
-corresponding matrix provided to the \code{lambda} argument. Each list
-element should be a \code{formula} object containing the write-hand side of
-a regression model, of the form \code{~ x + z}. Defaults to \code{NULL},
-which means that no factor interactions are used.}
+\item{factor_interactions}{Optional list of length equal to the number of
+columns in \code{lambda}. Each list element should be a \code{formula}
+object containing the write-hand side of a regression model, of the form
+\code{~ x + z}. Defaults to \code{NULL}, which means that no factor
+interactions are used.}
+
+\item{na.action}{Character of length one specifying a function which
+indicates what should happen when the data contains \code{NA}s. The
+defaults is set to the \code{na.action} setting of \code{options}, which
+can be seen with \code{options("na.action")}. The other alternatives are
+\code{"na.fail"} or \code{"na.exclude"}, which means that the function
+fails if there as \code{NA}s in \code{data}.}
 
 \item{start}{Optional named list of starting values for parameters. Possible
 names of list elements are \code{"theta"}, \code{"beta"}, \code{"lambda"},
 and \code{"weights"}, all of should be numerical vectors with starting
 values. Default to \code{NULL}, which means that some relatively sensible
-defaults are used.}
+defaults are used. Names of parameters must be given in all lower case.}
 
 \item{control}{Optional control object for the optimization procedure of
 class \code{galamm_control} resulting from calling
@@ -156,8 +175,8 @@ zero.
 }
 }
 \description{
-This function fits a generalized additive latent and mixed model (GALAMMs),
-as described in
+This function fits a generalized additive latent and mixed model
+(GALAMMs), as described in
 \insertCite{sorensenLongitudinalModelingAgeDependent2023;textual}{galamm}.
 The building blocks of these models are generalized additive mixed models
 (GAMMs) \insertCite{woodGeneralizedAdditiveModels2017a}{galamm}, of which
@@ -174,8 +193,8 @@ compute model estimates is described in
 and is an extension of the algorithm used for fitting generalized linear
 mixed models by the \code{lme4} package
 \insertCite{batesFittingLinearMixedEffects2015}{galamm}. The syntax used to
-define factor structures is based on that used by the \code{PLmixed} package,
-which is detailed in
+define factor structures is based on that used by the \code{PLmixed}
+package, which is detailed in
 \insertCite{rockwoodEstimatingComplexMeasurement2019;textual}{galamm}.
 }
 \examples{
@@ -197,9 +216,9 @@ mod <- galamm(
   data = mresp,
   family = families,
   family_mapping = family_mapping,
-  factor = list("level"),
+  factor = "level",
   load.var = "itemgroup",
-  lambda = list(loading_matrix)
+  lambda = loading_matrix
 )
 
 # Summary information
@@ -239,8 +258,8 @@ mod <- galamm(
     (0 + loading | id),
   data = dat,
   load.var = "item",
-  lambda = list(loading_matrix),
-  factor = list("loading")
+  lambda = loading_matrix,
+  factor = "loading"
 )
 
 # We can plot the estimated smooth term
@@ -249,10 +268,10 @@ plot_smooth(mod, shade = TRUE)
 
 # Interaction between observed and latent covariates ------------------------
 # Define the loading matrix
-lambda <- list(matrix(c(1, NA, NA), ncol = 1))
+lambda <- matrix(c(1, NA, NA), ncol = 1)
 
 # Define the regression functions, one for each row in the loading matrix
-factor_interactions <- list(list(~1, ~1, ~x))
+factor_interactions <- list(~1, ~1, ~x)
 
 # Fit the model
 mod <- galamm(
@@ -260,7 +279,7 @@ mod <- galamm(
   data = latent_covariates,
   load.var = "type",
   lambda = lambda,
-  factor = list("loading"),
+  factor = "loading",
   factor_interactions = factor_interactions
 )
 

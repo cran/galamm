@@ -1,4 +1,13 @@
+#' @srrstats {G5.0} Datasets from PLmixed package are used for testing, and
+#'   results from the functions in this package are precomputed for comparison,
+#'   in cases where PLmixed and galamm support the same models.
+#' @srrstats {G5.4} It has been confirmed that PLmixed returns the same results.
+#'   PLmixed is not run inside the tests, because it is too slow for that.
+#' @noRd
+NULL
+
 data("IRTsim", package = "PLmixed")
+
 test_that("LMM with simple factor works", {
   IRTsub <- IRTsim[IRTsim$item < 4, ] # Select items 1-3
   set.seed(12345)
@@ -10,29 +19,38 @@ test_that("LMM with simple factor works", {
   mod <- galamm(
     formula = y ~ 0 + as.factor(item) + (0 + abil.sid | school / sid),
     data = IRTsub,
-    load.var = c("item"),
-    factor = list(c("abil.sid")),
-    lambda = list(irt.lam)
+    load.var = "item",
+    factor = "abil.sid",
+    lambda = irt.lam
+  )
+
+  expect_equal(nobs(mod), 300L)
+  expect_equal(
+    as.character(formula(mod)),
+    c("~", "y", "0 + as.factor(item) + (0 + abil.sid | school/sid)")
   )
 
   pdf(NULL)
   expect_invisible(plot(mod))
   dev.off()
 
-  # Must test that it works also with tibbles
   class(IRTsub) <- c("tbl_df", "tbl", "data.frame")
   mod1 <- galamm(
     y ~ 0 + as.factor(item) + (0 + abil.sid | school / sid),
-    data = IRTsub, load.var = c("item"),
-    factor = list(c("abil.sid")), lambda = list(irt.lam)
+    data = IRTsub, load.var = "item",
+    factor = "abil.sid", lambda = irt.lam
   )
+  expect_equal(deviance(mod1), deviance(mod))
 
   class(IRTsub) <- c("data.table", "data.frame")
   mod2 <- galamm(
     y ~ 0 + as.factor(item) + (0 + abil.sid | school / sid),
-    data = IRTsub, load.var = c("item"),
-    factor = list(c("abil.sid")), lambda = list(irt.lam)
+    data = IRTsub, , load.var = "item",
+    factor = "abil.sid", lambda = irt.lam
   )
+  expect_equal(deviance(mod2), deviance(mod))
+
+  IRTsub <- as.data.frame(IRTsub)
 
   expect_equal(mod$hessian, mod1$hessian)
   expect_equal(mod$hessian, mod2$hessian)
@@ -82,9 +100,9 @@ test_that("LMM with simple factor works", {
   mod2 <- galamm(
     formula = y ~ 0 + as.factor(item) + (0 + abil.sid | school / sid),
     data = IRTsub,
-    load.var = c("item"),
-    factor = list(c("abil.sid")),
-    lambda = list(irt.lam),
+    load.var = "item",
+    factor = "abil.sid",
+    lambda = irt.lam,
     start = list(
       theta = mod$parameters$parameter_estimates[mod$parameters$theta_inds],
       beta = mod$parameters$parameter_estimates[mod$parameters$beta_inds],
@@ -107,9 +125,9 @@ test_that("LMM with simple factor works with Nelder-Mead", {
   mod <- galamm(
     formula = y ~ 0 + as.factor(item) + (0 + abil.sid | school / sid),
     data = IRTsub,
-    load.var = c("item"),
-    factor = list(c("abil.sid")),
-    lambda = list(irt.lam),
+    load.var = "item",
+    factor = "abil.sid",
+    lambda = irt.lam,
     control = galamm_control(method = "Nelder-Mead")
   )
 
@@ -161,9 +179,9 @@ test_that("LMM with simple factor works with Nelder-Mead", {
   mod2 <- galamm(
     formula = y ~ 0 + as.factor(item) + (0 + abil.sid | school / sid),
     data = IRTsub,
-    load.var = c("item"),
-    factor = list(c("abil.sid")),
-    lambda = list(irt.lam),
+    load.var = "item",
+    factor = "abil.sid",
+    lambda = irt.lam,
     start = list(
       theta = mod$parameters$parameter_estimates[mod$parameters$theta_inds],
       beta = mod$parameters$parameter_estimates[mod$parameters$beta_inds],
@@ -191,9 +209,9 @@ test_that("LMM with two factors works", {
   kyps_model <- galamm(
     formula = form,
     data = dat,
-    factor = list(c("ms", "hs")),
+    factor = c("ms", "hs"),
     load.var = "time",
-    lambda = list(kyps.lam)
+    lambda = kyps.lam
   )
 
   expect_equal(kyps_model$model$loglik, -33.7792632108483)
@@ -250,9 +268,9 @@ test_that("LMM with two raters works", {
     formula = response ~ 0 + item + (1 | class) +
       (0 + teacher1 + teacher2 | tch),
     data = dat,
-    lambda = list(judge.lam),
+    lambda = judge.lam,
     load.var = "item",
-    factor = list(c("teacher1", "teacher2"))
+    factor = c("teacher1", "teacher2")
   )
 
   expect_equal(deviance(judge_galamm), 2158.16155409666)
@@ -295,93 +313,187 @@ test_that("LMM with two raters works", {
   )
 })
 
-# Commented out because it takes 5-10 minutes to run.
+test_that("Complex LMM works", {
+  skip_extended()
+  data(JUDGEsim, package = "PLmixed")
+  JUDGEsim$item <- factor(JUDGEsim$item)
+  judge.lam <- rbind(
+    c(1, 0, 1, 0, 0, 0),
+    c(NA, 0, NA, 0, 0, 0),
+    c(NA, 0, NA, 0, 0, 0),
+    c(0, 1, 0, 1, 0, 0),
+    c(0, NA, 0, NA, 0, 0),
+    c(0, NA, 0, NA, 0, 0),
+    c(0, 0, 0, 0, 1, 0),
+    c(0, 0, 0, 0, NA, 0),
+    c(0, 0, 0, 0, NA, 0),
+    c(0, 0, 0, 0, 0, 1),
+    c(0, 0, 0, 0, 0, NA),
+    c(0, 0, 0, 0, 0, NA)
+  )
 
-# test_that("Complex LMM works", {
-#   JUDGEsim$item <- factor(JUDGEsim$item)
-#   judge.lam <- rbind(
-#     c(1, 0, 1, 0, 0, 0),
-#     c(NA, 0, NA, 0, 0, 0),
-#     c(NA, 0, NA, 0, 0, 0),
-#     c(0, 1, 0, 1, 0, 0),
-#     c(0, NA, 0, NA, 0, 0),
-#     c(0, NA, 0, NA, 0, 0),
-#     c(0, 0, 0, 0, 1, 0),
-#     c(0, 0, 0, 0, NA, 0),
-#     c(0, 0, 0, 0, NA, 0),
-#     c(0, 0, 0, 0, 0, 1),
-#     c(0, 0, 0, 0, 0, NA),
-#     c(0, 0, 0, 0, 0, NA)
-#   )
-#
-#   judge_galamm <- galamm(
-#     formula = response ~ 0 + item + (1 | class) +
-#       (0 + trait1.t + trait2.t + trait1.s + trait2.s | stu) +
-#       (0 + teacher1 + teacher2 | tch),
-#     data = JUDGEsim,
-#     lambda = list(judge.lam),
-#     load.var = "item",
-#     factor = list(c(
-#       "teacher1", "teacher2", "trait1.t",
-#       "trait2.t", "trait1.s", "trait2.s"
-#     ))
-#   )
-#
-#   expect_equal(judge_galamm$model$loglik, -56553.2785661794)
-#   expect_equal(judge_galamm$parameters$parameter_estimates,
-#     c(
-#       0.784430334881896, 0.566133764367859, 0.398568132799786,
-#       0.200370294453492,
-#       0.334085183988745, 0.00647882691731993, 0.235677264194959,
-#       0.773891841821503,
-#       0.337997663719164, 0.869131637864806, 0.498543199885178,
-#       0.239475682251201,
-#       0.482285028560489, 0, 3.39914518474943, 3.36263585640721,
-#       3.36210081563546,
-#       2.81984223040228, 2.93869388713431, 2.8771346729679,
-#       3.4260794096106,
-#       3.55223187960471, 3.59726951301179, 2.33415461561759,
-#       2.90902811819496,
-#       2.47043867252208, 1.12783179637647, 0.998580402300312,
-#       0.972482963140881,
-#       1.2190594859786, 1.09151685852923, 1.06570210817052,
-#       1.05362302739479,
-#       0.958118368867656, 1.32218004851917, 1.14483478564702,
-#       0.873958594688374,
-#       1.09623955388905
-#     ),
-#     tolerance = 1e-4
-#   )
-#
-#   tmp <- summary(judge_galamm)
-#   expect_equal(tmp$Lambda,
-#     structure(c(
-#       1, 1.12783179425509, 0.998580401925909, 0, 0, 0,
-#       0, 0, 0, 0, 0, 0, NA, 0.035838597834991, 0.0334494645321601,
-#       NA, NA, NA, NA, NA, NA, NA, NA, NA, 0, 0, 0, 1, 0.972482962774902,
-#       1.21905948534512, 0, 0, 0, 0, 0, 0, NA, NA, NA, NA,
-#       0.0303605948678942,
-#       0.0343626808329717, NA, NA, NA, NA, NA, NA, 1, 1.09151685865203,
-#       1.06570210905939, 0, 0, 0, 0, 0, 0, 0, 0, 0, NA, 0.0217214373201995,
-#       0.0214398508325773, NA, NA, NA, NA, NA, NA, NA, NA, NA, 0, 0,
-#       0, 1, 1.05362303061733, 0.958118371374549, 0, 0, 0, 0, 0, 0,
-#       NA, NA, NA, NA, 0.0257563813063262, 0.024602749572987, NA, NA,
-#       NA, NA, NA, NA, 0, 0, 0, 0, 0, 0, 1, 1.32218004297408, 1.1448347803669,
-#       0, 0, 0, NA, NA, NA, NA, NA, NA, NA, 0.0610912379818294,
-#       0.0563316297031143,
-#       NA, NA, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0.873958595211964,
-#       1.09623955372973, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,
-#       0.044174939624668,
-#       0.0487381242507442
-#     ), dim = c(12L, 12L), dimnames = list(c(
-#       "1",
-#       "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"
-#     ), c(
-#       "teacher1",
-#       "SE", "teacher2", "SE", "trait1.t", "SE", "trait2.t",
-#       "SE", "trait1.s",
-#       "SE", "trait2.s", "SE"
-#     ))),
-#     tolerance = 1e-4
-#   )
-# })
+  judge_galamm <- galamm(
+    formula = response ~ 0 + item + (1 | class) +
+      (0 + trait1.t + trait2.t + trait1.s + trait2.s | stu) +
+      (0 + teacher1 + teacher2 | tch),
+    data = JUDGEsim,
+    lambda = judge.lam,
+    load.var = "item",
+    factor = c(
+      "teacher1", "teacher2", "trait1.t",
+      "trait2.t", "trait1.s", "trait2.s"
+    )
+  )
+
+  expect_equal(judge_galamm$model$loglik, -56553.2785661794)
+  expect_equal(judge_galamm$parameters$parameter_estimates,
+    c(
+      0.784430334881896, 0.566133764367859, 0.398568132799786,
+      0.200370294453492,
+      0.334085183988745, 0.00647882691731993, 0.235677264194959,
+      0.773891841821503,
+      0.337997663719164, 0.869131637864806, 0.498543199885178,
+      0.239475682251201,
+      0.482285028560489, 0, 3.39914518474943, 3.36263585640721,
+      3.36210081563546,
+      2.81984223040228, 2.93869388713431, 2.8771346729679,
+      3.4260794096106,
+      3.55223187960471, 3.59726951301179, 2.33415461561759,
+      2.90902811819496,
+      2.47043867252208, 1.12783179637647, 0.998580402300312,
+      0.972482963140881,
+      1.2190594859786, 1.09151685852923, 1.06570210817052,
+      1.05362302739479,
+      0.958118368867656, 1.32218004851917, 1.14483478564702,
+      0.873958594688374,
+      1.09623955388905
+    ),
+    tolerance = 1e-4
+  )
+
+  tmp <- summary(judge_galamm)
+  expect_equal(tmp$Lambda,
+    structure(c(
+      1, 1.12783179637647, 0.998580402300312, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, NA, 0.0358385979432342, 0.0334494645747354,
+      NA, NA, NA, NA, NA, NA, NA, NA, NA, 0, 0, 0, 1, 0.972482963140881,
+      1.2190594859786, 0, 0, 0, 0, 0, 0, NA, NA, NA, NA, 0.0303605948898014,
+      0.0343626808674974, NA, NA, NA, NA, NA, NA, 1, 1.09151685852923,
+      1.06570210817052, 0, 0, 0, 0, 0, 0, 0, 0, 0, NA, 0.0217214373104262,
+      0.0214398508062957, NA, NA, NA, NA, NA, NA, NA, NA, NA, 0, 0,
+      0, 1, 1.05362302739479, 0.958118368867656, 0, 0, 0, 0, 0, 0,
+      NA, NA, NA, NA, 0.0257563811709945, 0.0246027494628801, NA, NA,
+      NA, NA, NA, NA, 0, 0, 0, 0, 0, 0, 1, 1.32218004851917, 1.14483478564702,
+      0, 0, 0, NA, NA, NA, NA, NA, NA, NA, 0.0610912384587967, 0.0563316301466295,
+      NA, NA, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0.873958594688374,
+      1.09623955388905, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 0.0441749396116879,
+      0.0487381242824818
+    ), dim = c(12L, 12L), dimnames = list(c(
+      "lambda1",
+      "lambda2", "lambda3", "lambda4", "lambda5", "lambda6", "lambda7",
+      "lambda8", "lambda9", "lambda10", "lambda11", "lambda12"
+    ), c(
+      "teacher1",
+      "SE", "teacher2", "SE", "trait1.t", "SE", "trait2.t", "SE", "trait1.s",
+      "SE", "trait2.s", "SE"
+    ))),
+    tolerance = 1e-4
+  )
+})
+
+
+test_that("multiple factors in fixed effects works", {
+  path <-
+    system.file("testdata", "test_multiple_factors.rds", package = "galamm")
+  dat <- as.data.frame(readRDS(path))
+
+  lmat <- matrix(c(
+    1, NA, NA, 0, 0, 0,
+    0, 0, 0, 1, NA, NA
+  ), ncol = 2)
+
+  mod <- galamm(
+    formula = y ~ 0 + x:domain1:lambda1 + x:domain2:lambda2 +
+      (0 + 1 | id),
+    data = dat,
+    load.var = "item",
+    lambda = lmat,
+    factor = c("lambda1", "lambda2"),
+    start = list(
+      theta = 0.744468091602185,
+      beta = c(1.03995169865897, 1.87422267819485),
+      lambda = c(
+        0.478791387562245, 1.94779433858618,
+        0.466484983394861, 2.02985361769537
+      ),
+      weights = numeric(0)
+    ),
+    control = galamm_control(
+      optim_control = list(
+        FtolAbs = 1000,
+        FtolRel = 1000, XtolRel = 1000,
+        warnOnly = TRUE, xt = rep(1000, 7)
+      ),
+      method = "Nelder-Mead"
+    )
+  )
+  expect_equal(deviance(mod), 7891.36597569292, tolerance = .001)
+})
+
+
+#' @srrstats {G5.9b} Algorithms are determinstic, so changing random seeds does
+#'   not affect the results. This is tested here.
+#' @srrstats {G5.9} Noise susceptibility tests here.
+#' @srrstats {G5.9a} Adding trivial noise and testing here.
+#' @noRd
+NULL
+
+test_that(
+  "Algorithm is robust to trivial noise",
+  {
+    IRTsub <- IRTsim[IRTsim$item < 4, ] # Select items 1-3
+    set.seed(12345)
+    IRTsub <- IRTsub[sample(nrow(IRTsub), 300), ] # Randomly sample 300 responses
+
+    IRTsub <- IRTsub[order(IRTsub$item), ] # Order by item
+    irt.lam <- matrix(c(1, NA, NA), ncol = 1) # Specify the lambda matrix
+
+    set.seed(1)
+    mod <- galamm(
+      formula = y ~ 0 + as.factor(item) + (0 + abil.sid | school / sid),
+      data = IRTsub,
+      load.var = "item",
+      factor = "abil.sid",
+      lambda = irt.lam
+    )
+    set.seed(2)
+    mod0 <- galamm(
+      formula = y ~ 0 + as.factor(item) + (0 + abil.sid | school / sid),
+      data = IRTsub,
+      load.var = "item",
+      factor = "abil.sid",
+      lambda = irt.lam
+    )
+
+    expect_equal(deviance(mod), deviance(mod0))
+    expect_equal(coef(mod), coef(mod0))
+    expect_equal(vcov(mod), vcov(mod0))
+    expect_equal(factor_loadings(mod), factor_loadings(mod0))
+
+    # Add trivial noise
+    dat <- IRTsub
+    dat$y <- dat$y + rnorm(nrow(dat), sd = .Machine$double.eps)
+    mod0 <- galamm(
+      formula = y ~ 0 + as.factor(item) + (0 + abil.sid | school / sid),
+      data = IRTsub,
+      load.var = "item",
+      factor = "abil.sid",
+      lambda = irt.lam
+    )
+
+    expect_equal(deviance(mod), deviance(mod0), tolerance = 1e-8)
+    expect_equal(coef(mod), coef(mod0), tolerance = 1e-8)
+    expect_equal(vcov(mod), vcov(mod0), tolerance = 1e-8)
+    expect_equal(factor_loadings(mod), factor_loadings(mod0), tolerance = 1e-8)
+  }
+)

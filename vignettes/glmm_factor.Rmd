@@ -99,12 +99,12 @@ mod <- galamm(
   data = IRTsim,
   family = binomial,
   load.var = "item",
-  factor = list("ability"),
-  lambda = list(loading_matrix)
+  factor = "ability",
+  lambda = loading_matrix
 )
 ```
 
-A couple of things in the model formula are worth pointing out. First the part `(0 + ability | school / sid)` in the model formula specifies that student ability varies between students within schools. It corresponds to the term $\mathbf{x}_{ijk}^{T}\boldsymbol{\lambda} (\eta_{j} + \eta_{jk})$ in the mathematical specification of the model. The variable `ability` is not part of the `IRTsim` dataframe, but is instead specified in the argument `factor = list("ability")`. The argument `load.var = "item"` specifies that all rows in the dataframe with the same value of "item" should get the same element of $\boldsymbol{\lambda}$, and hence it defines the dummy variable $\mathbf{x}_{ijk}$. Finally, `lambda = list(loading_matrix)` provides the matrix of factor loadings. Note that we must explicitly add a zero in `(0 + ability | school / sid)` to avoid having a random intercept estimated in addition to the effect for each value of "item"; such a model would not be identified. The fixed effect part of the model formula, which is simply `item`, specifies the term $\mathbf{x}_{ijk}^{T} \boldsymbol{\beta}$.
+A couple of things in the model formula are worth pointing out. First the part `(0 + ability | school / sid)` in the model formula specifies that student ability varies between students within schools. It corresponds to the term $\mathbf{x}_{ijk}^{T}\boldsymbol{\lambda} (\eta_{j} + \eta_{jk})$ in the mathematical specification of the model. The variable `ability` is not part of the `IRTsim` dataframe, but is instead specified in the argument `factor = "ability"`. The argument `load.var = "item"` specifies that all rows in the dataframe with the same value of "item" should get the same element of $\boldsymbol{\lambda}$, and hence it defines the dummy variable $\mathbf{x}_{ijk}$. Finally, `lambda = loading_matrix` provides the matrix of factor loadings. Note that we must explicitly add a zero in `(0 + ability | school / sid)` to avoid having a random intercept estimated in addition to the effect for each value of "item"; such a model would not be identified. The fixed effect part of the model formula, which is simply `item`, specifies the term $\mathbf{x}_{ijk}^{T} \boldsymbol{\beta}$.
 
 We can start by inspecting the fitted model:
 
@@ -234,8 +234,8 @@ galamm_mod_trials <- galamm(
   data = dat,
   family = binomial,
   load.var = "item",
-  factor = list("ability"),
-  lambda = list(loading_matrix)
+  factor = "ability",
+  lambda = loading_matrix
 )
 ```
 
@@ -346,6 +346,12 @@ In this case we can confirm that the `galamm` function is correctly implemented 
 
 ```r
 library(lme4)
+#> Loading required package: Matrix
+#> 
+#> Attaching package: 'lme4'
+#> The following object is masked from 'package:galamm':
+#> 
+#>     llikAIC
 count_mod_lme4 <- glmer(
   formula = y ~ lbas * treat + lage + v4 + (1 | subj),
   data = epilep,
@@ -389,7 +395,7 @@ summary(count_mod_lme4)
 #> (Intercept)   1.7937     0.1045  17.165  < 2e-16 ***
 #> lbas          0.8844     0.1308   6.764 1.34e-11 ***
 #> treat        -0.3349     0.1474  -2.272  0.02311 *  
-#> lage          0.4845     0.3458   1.401  0.16121    
+#> lage          0.4845     0.3458   1.401  0.16122    
 #> v4           -0.1611     0.0543  -2.966  0.00301 ** 
 #> lbas:treat    0.3382     0.2025   1.671  0.09479 .  
 #> ---

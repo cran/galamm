@@ -2,7 +2,10 @@
 ##' @export VarCorr
 NULL
 
-#' Extract variance and correlation components from model
+#' @title Extract variance and correlation components from model
+#'
+#' @srrstats {G1.4} Function documented with roxygen2.
+#' @srrstats {G2.1a} Expected data types provided for all inputs.
 #'
 #' @param x An object of class \code{galamm} returned from \code{\link{galamm}}.
 #' @param sigma Numeric value used to multiply the standard deviations. Defaults
@@ -12,7 +15,7 @@ NULL
 #' @name VarCorr
 #' @aliases VarCorr VarCorr.galamm
 #'
-#' @return An object of class \code{VarCorr.galamm}.
+#' @return An object of class \code{c("VarCorr.galamm", "VarCorr.merMod")}.
 #' @export
 #'
 #' @seealso [print.VarCorr.galamm()] for the print function.
@@ -30,6 +33,10 @@ NULL
 #' # Extract information on variance and covariance
 #' VarCorr(mod)
 #'
+#' # Convert to data frame
+#' # (this invokes lme4's function as.data.frame.VarCorr.merMod)
+#' as.data.frame(VarCorr(mod))
+#'
 VarCorr.galamm <- function(x, sigma = 1, ...) {
   useSc <- Reduce(function(`&&`, y) y$family == "gaussian",
     family(x),
@@ -43,22 +50,27 @@ VarCorr.galamm <- function(x, sigma = 1, ...) {
       names(x$model$lmod$reTrms$cnms)
     ),
     useSc = useSc,
-    class = "VarCorr.galamm"
+    class = c("VarCorr.galamm", "VarCorr.merMod")
   )
 }
 
 
-#' Print method for variance-covariance objects
+#' @title Print method for variance-covariance objects
 #'
+#' @srrstats {G1.4} Function documented with roxygen2.
+#' @srrstats {G2.1a} Expected data types provided for all inputs.
+#' @srrstats {G2.3,G2.3a} match.arg() used on "comp" argument.
+#' @srrstats {G2.3,G2.3b} Argument "comp" is case sensitive, as is documented here.
 #'
-#' @param x An object of class \code{VarCorr.galamm}, returned from
-#'   \code{\link{VarCorr.galamm}}.
+#' @param x An object of class \code{c("VarCorr.galamm", "VarCorr.merMod")},
+#'   returned from \code{\link{VarCorr.galamm}}.
 #' @param digits Optional arguments specifying number of digits to use when
 #'   printing.
 #' @param comp Character vector of length 1 or 2 specifying which variance
-#'   components to print.
-#' @param corr Boolean indicating whether covariances or correlations should be
-#'   printed.
+#'   components to print. Case sensitive. Can take one of the values "Std.Dev."
+#'   and "Variance".
+#' @param corr Logical value indicating whether covariances or correlations
+#'   should be printed.
 #' @param ... Optional arguments passed on to other methods. Currently not used.
 #'
 #' @return The variance-covariance information is printed to the console and the

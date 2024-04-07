@@ -6,8 +6,8 @@ test_that("Mixed response works", {
     family = c(gaussian, binomial),
     family_mapping = ifelse(dat$itemgroup == "a", 1L, 2L),
     load.var = "itemgroup",
-    lambda = list(matrix(c(1, NA), ncol = 1)),
-    factor = list("loading")
+    lambda = matrix(c(1, NA), ncol = 1),
+    factor = "loading"
   )
 
   expect_error(
@@ -50,12 +50,76 @@ test_that("Mixed response works", {
   )
 
   expect_equal(
+    predict(mod, newdata = subset(mresp, id %in% c(101, 103))),
+    structure(c(
+      0.850193554899423, 0.825301206439717, 0.289802812104655,
+      0.525192181355719, 0.237374173176289, 0.466804927622163, 0.507503457053694,
+      0.272927548669085
+    ), dim = c(8L, 1L), dimnames = list(c(
+      "401",
+      "402", "403", "404", "409", "410", "411", "412"
+    ), NULL))
+  )
+
+  expect_equal(
     tail(fitted(mod)),
     c(
       0.564189106544179, 0.635617477751538, -0.38290827754476,
       -0.74649161744025, 0.401960973148028, 0.409856827991987
     ),
     tolerance = 1e-4
+  )
+
+  expect_error(
+    mod <- galamm(
+      formula = y ~ x + (0 + loading | id),
+      data = dat,
+      family = c(gaussian, binomial),
+      family_mapping = ifelse(dat$itemgroup == "a", 1L, 2L)[1:3],
+      load.var = "itemgroup",
+      lambda = matrix(c(1, NA), ncol = 1),
+      factor = "loading"
+    ),
+    "family_mapping must contain one index per row in data"
+  )
+
+  expect_error(
+    mod <- galamm(
+      formula = y ~ x + (0 + loading | id),
+      data = dat,
+      family = c(gaussian, binomial),
+      family_mapping = matrix(ifelse(dat$itemgroup == "a", 1L, 2L), ncol = 2),
+      load.var = "itemgroup",
+      lambda = matrix(c(1, NA), ncol = 1),
+      factor = "loading"
+    ),
+    "family_mapping must be a vector"
+  )
+
+  expect_error(
+    mod <- galamm(
+      formula = y ~ x + (0 + loading | id),
+      data = dat,
+      family = c(gaussian, binomial),
+      family_mapping = sample(1:4, nrow(dat), replace = TRUE),
+      load.var = "itemgroup",
+      lambda = matrix(c(1, NA), ncol = 1),
+      factor = "loading"
+    ),
+    "family_mapping must contain a unique index for each element in family_list"
+  )
+
+  expect_error(
+    mod <- galamm(
+      formula = y ~ x + (0 + loading | id),
+      data = dat,
+      family = c(gaussian, binomial),
+      family_mapping = rep(1, nrow(dat)),
+      load.var = "itemgroup",
+      lambda = matrix(c(1, NA), ncol = 1),
+      factor = "loading"
+    ),
+    "family_mapping must contain a unique index for each element in family_list"
   )
 
   # Now test using initial values
@@ -65,8 +129,8 @@ test_that("Mixed response works", {
     family = c(gaussian, binomial),
     family_mapping = ifelse(dat$itemgroup == "a", 1L, 2L),
     load.var = "itemgroup",
-    lambda = list(matrix(c(1, NA), ncol = 1)),
-    factor = list("loading"),
+    lambda = matrix(c(1, NA), ncol = 1),
+    factor = "loading",
     start = list(
       theta = mod$parameters$parameter_estimates[mod$parameters$theta_inds],
       beta = mod$parameters$parameter_estimates[mod$parameters$beta_inds],
@@ -86,11 +150,11 @@ test_that("Mixed response works with multiple trials", {
     family = c(gaussian, binomial),
     family_mapping = ifelse(dat$itemgroup == "a", 1L, 2L),
     load.var = "itemgroup",
-    lambda = list(matrix(c(1, NA), ncol = 1)),
-    factor = list("loading")
+    lambda = matrix(c(1, NA), ncol = 1),
+    factor = "loading"
   )
 
-  expect_equal(deviance(mod), 885.73410657623, tolerance = .0001)
+  expect_equal(deviance(mod), 322.712453540071, tolerance = .0001)
 })
 
 test_that("Covariate measurement error model works", {
@@ -103,9 +167,9 @@ test_that("Covariate measurement error model works", {
     data = diet,
     family = c(gaussian, binomial),
     family_mapping = ifelse(diet$item == "chd", 2L, 1L),
-    factor = list("loading"),
+    factor = "loading",
     load.var = "item",
-    lambda = list(lam),
+    lambda = lam,
     start = list(theta = 10)
   )
 
@@ -130,9 +194,9 @@ test_that("Covariate measurement error model works", {
     data = diet,
     family = c(gaussian, binomial),
     family_mapping = ifelse(diet$item == "chd", 2L, 1L),
-    factor = list("loading"),
+    factor = "loading",
     load.var = "item",
-    lambda = list(lam),
+    lambda = lam,
     start = list(theta = 10)
   )
 

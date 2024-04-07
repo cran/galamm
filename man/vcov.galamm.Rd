@@ -12,7 +12,8 @@
 
 \item{parm}{The parameters for which the variance-covariance matrix should be
 calculated. Character vector with one or more of the elements "theta",
-"beta", "lambda", and "weights". Can also be an integer vector.}
+"beta", "lambda", and "weights". Can also be an integer vector. When given
+as a character, it must be in only lowercase letters.}
 
 \item{...}{Further arguments passed on to other methods. Currently not used.}
 }
@@ -50,8 +51,10 @@ Other details of model fit:
 \code{\link{family.galamm}()},
 \code{\link{fitted.galamm}()},
 \code{\link{fixef}()},
+\code{\link{formula.galamm}()},
 \code{\link{llikAIC}()},
 \code{\link{logLik.galamm}()},
+\code{\link{nobs.galamm}()},
 \code{\link{predict.galamm}()},
 \code{\link{print.VarCorr.galamm}()},
 \code{\link{ranef.galamm}()},

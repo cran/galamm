@@ -11,8 +11,7 @@
 \item{object}{An object of class \code{galamm}, returned from
 \code{\link{galamm}}.}
 
-\item{...}{Optional parameters passed on to other functions. Currently
-not used.}
+\item{...}{Optional arguments passed on to other methods. Currently not used.}
 }
 \value{
 A named \code{numeric} vector containing the requested fixed effects.
@@ -43,8 +42,10 @@ Other details of model fit:
 \code{\link{factor_loadings.galamm}()},
 \code{\link{family.galamm}()},
 \code{\link{fitted.galamm}()},
+\code{\link{formula.galamm}()},
 \code{\link{llikAIC}()},
 \code{\link{logLik.galamm}()},
+\code{\link{nobs.galamm}()},
 \code{\link{predict.galamm}()},
 \code{\link{print.VarCorr.galamm}()},
 \code{\link{ranef.galamm}()},

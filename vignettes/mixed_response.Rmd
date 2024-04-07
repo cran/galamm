@@ -71,7 +71,7 @@ We define the loading matrix as follows, where the value `1` indicates that the 
 #> [2,]   NA
 ```
 
-We set `load.var = "itemgroup"` because all rows of the data with the same value of `itemgroup` will receive the same factor loading. In `formula`, we state `(0 + level | id)` to specify that each subject, identified by `id`, has a given level. `level` is not an element of the `mresp` data, but is instead the factor onto which the loading matrix loads. We identify this with the argument `factor = list("level")`. We could have chosen any other name for `"level"`, except for names that are already columns in `mresp`.
+We set `load.var = "itemgroup"` because all rows of the data with the same value of `itemgroup` will receive the same factor loading. In `formula`, we state `(0 + level | id)` to specify that each subject, identified by `id`, has a given level. `level` is not an element of the `mresp` data, but is instead the factor onto which the loading matrix loads. We identify this with the argument `factor = "level"`. We could have chosen any other name for `"level"`, except for names that are already columns in `mresp`.
 
 We also need to define the response families, with the vector
 
@@ -97,8 +97,8 @@ mixed_resp <- galamm(
   family = families,
   family_mapping = family_mapping,
   load.var = "itemgroup",
-  lambda = list(loading_matrix),
-  factor = list("level")
+  lambda = loading_matrix,
+  factor = "level"
 )
 ```
 
@@ -114,10 +114,6 @@ summary(mixed_resp)
 #> 
 #>      AIC      BIC   logLik deviance df.resid 
 #>   9248.7   9280.2  -4619.3   3633.1     3995 
-#> 
-#> Scaled residuals: 
-#>     Min      1Q  Median      3Q     Max 
-#> -3.5360 -0.7078  0.2156  0.6456  2.5978 
 #> 
 #> Lambda:
 #>         level      SE
@@ -178,10 +174,6 @@ summary(mod)
 #> 
 #>      AIC      BIC   logLik deviance df.resid 
 #>  12356.9  12388.3  -6173.4  31426.4     3995 
-#> 
-#> Scaled residuals: 
-#>      Min       1Q   Median       3Q      Max 
-#> -15.2275  -0.4025   0.1262   0.6757  16.0284 
 #> 
 #> Random effects:
 #>  Groups Name        Variance Std.Dev.
@@ -333,9 +325,9 @@ mod <- galamm(
   data = diet,
   family = families,
   family_mapping = family_mapping,
-  factor = list("loading"),
+  factor = "loading",
   load.var = "item",
-  lambda = list(loading_matrix)
+  lambda = loading_matrix
 )
 ```
 
@@ -352,10 +344,6 @@ summary(mod)
 #> 
 #>      AIC      BIC   logLik deviance df.resid 
 #>   2837.6   2892.9  -1406.8  12529.3      730 
-#> 
-#> Scaled residuals: 
-#>      Min       1Q   Median       3Q      Max 
-#> -10.1375  -0.4389  -0.3522   0.2743  27.3350 
 #> 
 #> Lambda:
 #>         loading SE
@@ -392,9 +380,9 @@ mod <- galamm(
   data = diet,
   family = families,
   family_mapping = family_mapping,
-  factor = list("loading"),
+  factor = "loading",
   load.var = "item",
-  lambda = list(loading_matrix),
+  lambda = loading_matrix,
   control = galamm_control(optim_control = list(trace = 3))
 )
 #> N = 11, M = 20 machine precision = 2.22045e-16
@@ -428,9 +416,9 @@ mod <- galamm(
   data = diet,
   family = families,
   family_mapping = family_mapping,
-  factor = list("loading"),
+  factor = "loading",
   load.var = "item",
-  lambda = list(loading_matrix),
+  lambda = loading_matrix,
   start = list(theta = 10),
   control = galamm_control(optim_control = list(trace = 3))
 )
@@ -471,10 +459,6 @@ summary(mod)
 #> 
 #>      AIC      BIC   logLik deviance df.resid 
 #>   2768.3   2823.6  -1372.2   2002.9      730 
-#> 
-#> Scaled residuals: 
-#>     Min      1Q  Median      3Q     Max 
-#> -258547      -1       0       0      66 
 #> 
 #> Lambda:
 #>         loading      SE
@@ -528,9 +512,9 @@ mod0 <- galamm(
   data = diet,
   family = families,
   family_mapping = family_mapping,
-  factor = list("loading"),
+  factor = "loading",
   load.var = "item",
-  lambda = list(loading_matrix),
+  lambda = loading_matrix,
   start = list(theta = 10),
   control = galamm_control(optim_control = list(trace = 3))
 )
@@ -566,10 +550,6 @@ summary(mod0)
 #> 
 #>      AIC      BIC   logLik deviance df.resid 
 #>   2764.0   2805.5  -1373.0   2007.9      733 
-#> 
-#> Scaled residuals: 
-#>     Min      1Q  Median      3Q     Max 
-#> -280306      -1       0       0      66 
 #> 
 #> Lambda:
 #>         loading      SE

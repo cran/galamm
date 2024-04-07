@@ -6,6 +6,8 @@
 #' \insertCite{skrondalGeneralizedLatentVariable2004;textual}{galamm}, where
 #' the dataset is used.
 #'
+#' @srrstats {G5.1} Dataset used to test package is exported.
+#'
 #' @format ## `epilep` A data frame with 236 rows and 7 columns:
 #' \describe{
 #'   \item{subj}{Subject ID.}
@@ -27,6 +29,8 @@
 #' Very basic mixed response dataset with one set of normally distributed
 #' responses and one set of binomially distributed responses.
 #'
+#' @srrstats {G5.1} Dataset used to test package is exported.
+#'
 #' @format ## `mresp` A data frame with 4000 rows and 5 columns:
 #' \describe{
 #'   \item{id}{Subject ID.}
@@ -45,6 +49,8 @@
 #' Mixed response dataset with one set of normally distributed
 #' responses and one set of binomially distributed responses. The normally
 #' distributed response follow two different residual standard deviations.
+#'
+#' @srrstats {G5.1} Dataset used to test package is exported.
 #'
 #' @format ## `mresp` A data frame with 4000 rows and 5 columns:
 #' \describe{
@@ -71,6 +77,8 @@
 #' \insertCite{skrondalGeneralizedLatentVariable2004;textual}{galamm}, where the
 #' dataset is used. See also
 #' \insertCite{rabe-heskethCorrectingCovariateMeasurement2003;textual}{galamm}.
+#'
+#' @srrstats {G5.1} Dataset used to test package is exported.
 #'
 #' @format ## `diet` A data frame with 236 rows and 7 columns:
 #' \describe{
@@ -99,6 +107,8 @@
 #' Simulated dataset with residual standard deviation that varies between
 #' items.
 #'
+#' @srrstats {G5.1} Dataset used to test package is exported.
+#'
 #' @format ## `hsced` A data frame with 1200 rows and 5 columns:
 #' \describe{
 #'   \item{id}{Subject ID.}
@@ -118,6 +128,8 @@
 #' the functions in \code{mgcv::gamSim}
 #' \insertCite{woodGeneralizedAdditiveModels2017a}{galamm}, and depend on the
 #' explanatory variable x.
+#'
+#' @srrstats {G5.1} Dataset used to test package is exported.
 #'
 #' @format ## `cognition` A data frame with 14400 rows and 7 columns:
 #' \describe{
@@ -141,6 +153,8 @@
 #'
 #' Simulated dataset for use in examples and testing with a latent covariate
 #' interacting with an observed covariate.
+#'
+#' @srrstats {G5.1} Dataset used to test package is exported.
 #'
 #' @format ## `latent_covariates` A data frame with 600 rows and 5 columns:
 #' \describe{
@@ -166,6 +180,8 @@
 #' interacting with an observed covariate. In this data, each response has been
 #' measured six times for each subject.
 #'
+#' @srrstats {G5.1} Dataset used to test package is exported.
+#'
 #' @format ## `latent_covariates_long` A data frame with 800 rows and 5
 #' columns:
 #' \describe{
@@ -184,3 +200,31 @@
 #' @family datasets
 #'
 "latent_covariates_long"
+
+#' Simulated Dataset with Lifespan Trajectories of Three Cognitive Domains
+#'
+#' This dataset is simulated based on the data used in Section 4.1 of
+#' \insertCite{sorensenLongitudinalModelingAgeDependent2023;textual}{galamm}.
+#'
+#' @format ## `lifespan` A data frame with 54,457 rows and 7 columns:
+#' \describe{
+#' \item{id}{Subject ID.}
+#' \item{domain}{Cognitive domain being measured. One of \code{"epmem"} for
+#' episodic memory, \code{"wmem"} for working memory and \code{"execfun"} for
+#' executive function/speed.}
+#' \item{timepoint}{Integer indicating the timepoint number.}
+#' \item{age}{Age of participant at the timepoint.}
+#' \item{test}{The particular test at this observation.}
+#' \item{y}{Response. For \code{"epmem"} and \code{"wmem"} this is the number
+#' of successes in 16 trials. For \code{"execfun"} it is the time in seconds
+#' to complete the task.}
+#' \item{retest}{Integer indicating whether the participant has taken the test
+#' at a previous timepoint.}
+#' \item{domainepmem}{Dummy variable for \code{domain=="epmem"}.}
+#' \item{domainwmem}{Dummy variable for \code{domain=="wmem"}.}
+#' \item{domainexecfun}{Dummy variable for \code{domain=="execfun"}.}
+#' }
+#'
+#' @family datasets
+#' @references \insertAllCited{}
+"lifespan"

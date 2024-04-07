@@ -1,5 +1,9 @@
-#' Summarizing GALAMM fits
+#' @title Summarizing GALAMM fits
 #'
+#' @srrstats {G1.4} Function documented with roxygen2.
+#' @srrstats {G2.1a} Expected data types provided for all inputs.
+#'
+#' @description
 #' Summary method for class "galamm".
 #'
 #' @param object An object of class \code{galamm} returned from
@@ -99,8 +103,9 @@ summary.galamm <- function(object, ...) {
 }
 
 
-#' Print method for summary GALAMM fits
+#' @title Print method for summary GALAMM fits
 #'
+#' @srrstats {G1.4} Function documented with roxygen2.
 #'
 #' @param x An object of class \code{summary.galamm} returned from
 #'   \code{\link{summary.galamm}}.
@@ -142,7 +147,10 @@ print.summary.galamm <- function(
   cat("\n")
   lme4::.prt.aictab(x$AICtab)
   cat("\n")
-  lme4::.prt.resids(residuals(x) / sigma(x), digits = digits)
+  if (length(x$model$family) == 1) {
+    lme4::.prt.resids(residuals(x) / sigma(x), digits = digits)
+  }
+
   if (exists("Lambda", x)) {
     cat("Lambda:\n")
     x$Lambda[x$Lambda == 0] <- NA
@@ -174,8 +182,11 @@ print.summary.galamm <- function(
 }
 
 
-#' Extract log likelihood, AIC, and related statistics from a GALAMM
+#' @title Extract log likelihood, AIC, and related statistics from a GALAMM
 #'
+#' @srrstats {G1.4} Function documented with roxygen2.
+#'
+#' @description
 #' This function is assembles the values used by \code{\link{summary.galamm}}.
 #'
 #'

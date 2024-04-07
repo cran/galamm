@@ -7,9 +7,11 @@
 \method{sigma}{galamm}(object, ...)
 }
 \arguments{
-\item{object}{An object of class \code{galamm}.}
+\item{object}{An object of class \code{galamm}, returned from
+\code{\link{galamm}}.}
 
-\item{...}{Other optional arguments. Currently not used.}
+\item{...}{Optional parameters passed on to other methods. Currently not
+used.}
 }
 \value{
 The square root of one or more dispersion parameters.
@@ -50,8 +52,10 @@ Other details of model fit:
 \code{\link{family.galamm}()},
 \code{\link{fitted.galamm}()},
 \code{\link{fixef}()},
+\code{\link{formula.galamm}()},
 \code{\link{llikAIC}()},
 \code{\link{logLik.galamm}()},
+\code{\link{nobs.galamm}()},
 \code{\link{predict.galamm}()},
 \code{\link{print.VarCorr.galamm}()},
 \code{\link{ranef.galamm}()},

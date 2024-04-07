@@ -97,17 +97,17 @@ $$
 
 where $N_{3}(a, b)$ denotes a trivariate normal distribution with mean $a$ and covariance $b$.
 
-In order to fit the model with galamm, we use the same syntax as PLmixed, and start by defining the loading matrix. The first column contains $\boldsymbol{\lambda}_{m}$ and the second column contains $\boldsymbol{\lambda}_{h}$. Numerical values in this matrix means that the entry is fixed to the given value, whereas `NA` means that the value is unknown, and should be estimated. We enclose the matrix in a list, because potentially there can be multiple matrices, and then each should be a list element.
+In order to fit the model with galamm, we use syntax similar to PLmixed, and start by defining the loading matrix. The first column contains $\boldsymbol{\lambda}_{m}$ and the second column contains $\boldsymbol{\lambda}_{h}$. Numerical values in this matrix means that the entry is fixed to the given value, whereas `NA` means that the value is unknown, and should be estimated.
+
 
 
 ```r
-(loading_matrix <- list(rbind(
+(loading_matrix <- rbind(
   c(1, 0),
   c(NA, 0),
   c(NA, 1),
   c(NA, NA)
-)))
-#> [[1]]
+))
 #>      [,1] [,2]
 #> [1,]    1    0
 #> [2,]   NA    0
@@ -115,11 +115,11 @@ In order to fit the model with galamm, we use the same syntax as PLmixed, and st
 #> [4,]   NA   NA
 ```
 
-We connect the loading matrix to variables in the dataframe with the following list of factors. Since the list of loading matrices has only a single element, also the list of factors has only a single element, which is one character vector for each column in the loading matrix.
+We connect the loading matrix to variables in the dataframe with the following factors. 
 
 
 ```r
-factors <- list(c("ms", "hs"))
+factors <- c("ms", "hs")
 ```
 
 
@@ -153,16 +153,17 @@ mod <- galamm(
 )
 ```
 
-The model could be fit with `PLmixed` using the following call with exactly the same arguments as to `galamm`. The reader is encouraged to try, and confirm that the results are essentially equivalent, but we won't run it in this vignette as it takes 5-10 minutes.
+The model could be fit with `PLmixed` using the following call, which differs from the call to `galamm` in that `factor` and `lambda` must be put inside lists. The reader is encouraged to try, and confirm that the results are essentially equivalent, but we won't run it in this vignette as it takes 5-10 minutes.
+
 
 
 ```r
 kyps_plmixed <- PLmixed(
   formula = form,
   data = KYPSsim,
-  factor = factors,
+  factor = list(factors),
   load.var = load.var,
-  lambda = loading_matrix
+  lambda = list(loading_matrix)
 )
 ```
 
@@ -230,13 +231,12 @@ We can also compare the estimated model to a model with constrained factor loadi
 
 
 ```r
-(loading_matrix_constr1 <- list(rbind(
+(loading_matrix_constr1 <- rbind(
   c(1, 0),
   c(NA, 0),
   c(0, 1),
   c(0, NA)
-)))
-#> [[1]]
+))
 #>      [,1] [,2]
 #> [1,]    1    0
 #> [2,]   NA    0
@@ -259,13 +259,12 @@ We could further assume that the factor loadings at timepoints 1 and 2 for middl
 
 
 ```r
-(loading_matrix_constr2 <- list(rbind(
+(loading_matrix_constr2 <- rbind(
   c(1, 0),
   c(1, 0),
   c(0, 1),
   c(0, 1)
-)))
-#> [[1]]
+))
 #>      [,1] [,2]
 #> [1,]    1    0
 #> [2,]    1    0
@@ -481,7 +480,7 @@ We specify the loading matrix as follows. In comparison with the mathematical mo
 
 
 ```r
-(loading_matrix <- list(rbind(
+(loading_matrix <- rbind(
   c(1, 0, 1, 0, 0, 0),
   c(NA, 0, NA, 0, 0, 0),
   c(NA, 0, NA, 0, 0, 0),
@@ -494,8 +493,7 @@ We specify the loading matrix as follows. In comparison with the mathematical mo
   c(0, 0, 0, 0, 0, 1),
   c(0, 0, 0, 0, 0, NA),
   c(0, 0, 0, 0, 0, NA)
-)))
-#> [[1]]
+))
 #>       [,1] [,2] [,3] [,4] [,5] [,6]
 #>  [1,]    1    0    1    0    0    0
 #>  [2,]   NA    0   NA    0    0    0
@@ -515,10 +513,10 @@ Next, we specify the factors in the order they appear in the columns of the load
 
 
 ```r
-factors <- list(c(
+factors <- c(
   "teacher1", "teacher2", "trait1.t",
   "trait2.t", "trait1.s", "trait2.s"
-))
+)
 ```
 
 The formula is defined as follows, where have have placed the terms in the same order as they appear in the mathematical model in matrix-vector form specified above.
@@ -537,13 +535,13 @@ Using `PLmixed`, we could have estimated the model as follows, and doing it woul
 judge_plmixed <- PLmixed(
   formula = form,
   data = JUDGEsim,
-  lambda = loading_matrix,
+  lambda = list(loading_matrix),
   load.var = "item",
-  factor = factors
+  factor = list(factors)
 )
 ```
 
-We get identical results using `galamm` in less than five minutes.
+We get identical results using `galamm`, and it takes less than five minutes.
 
 
 ```r
@@ -571,32 +569,19 @@ summary(judge_galamm)
 #> -3.8407 -0.6439  0.0017  0.6474  3.9799 
 #> 
 #> Lambda:
-#>          teacher1      SE teacher2      SE trait1.t      SE trait2.t      SE trait1.s
-#> lambda1    1.0000       .        .       .    1.000       .        .       .        .
-#> lambda2    1.1278 0.03584        .       .    1.092 0.02172        .       .        .
-#> lambda3    0.9986 0.03345        .       .    1.066 0.02144        .       .        .
-#> lambda4         .       .   1.0000       .        .       .   1.0000       .        .
-#> lambda5         .       .   0.9725 0.03036        .       .   1.0536 0.02576        .
-#> lambda6         .       .   1.2191 0.03436        .       .   0.9581 0.02460        .
-#> lambda7         .       .        .       .        .       .        .       .    1.000
-#> lambda8         .       .        .       .        .       .        .       .    1.322
-#> lambda9         .       .        .       .        .       .        .       .    1.145
-#> lambda10        .       .        .       .        .       .        .       .        .
-#> lambda11        .       .        .       .        .       .        .       .        .
-#> lambda12        .       .        .       .        .       .        .       .        .
-#>               SE trait2.s      SE
-#> lambda1        .        .       .
-#> lambda2        .        .       .
-#> lambda3        .        .       .
-#> lambda4        .        .       .
-#> lambda5        .        .       .
-#> lambda6        .        .       .
-#> lambda7        .        .       .
-#> lambda8  0.06109        .       .
-#> lambda9  0.05633        .       .
-#> lambda10       .    1.000       .
-#> lambda11       .    0.874 0.04417
-#> lambda12       .    1.096 0.04874
+#>          teacher1      SE teacher2      SE trait1.t      SE trait2.t      SE trait1.s      SE trait2.s      SE
+#> lambda1    1.0000       .        .       .    1.000       .        .       .        .       .        .       .
+#> lambda2    1.1278 0.03584        .       .    1.092 0.02172        .       .        .       .        .       .
+#> lambda3    0.9986 0.03345        .       .    1.066 0.02144        .       .        .       .        .       .
+#> lambda4         .       .   1.0000       .        .       .   1.0000       .        .       .        .       .
+#> lambda5         .       .   0.9725 0.03036        .       .   1.0536 0.02576        .       .        .       .
+#> lambda6         .       .   1.2191 0.03436        .       .   0.9581 0.02460        .       .        .       .
+#> lambda7         .       .        .       .        .       .        .       .    1.000       .        .       .
+#> lambda8         .       .        .       .        .       .        .       .    1.322 0.06109        .       .
+#> lambda9         .       .        .       .        .       .        .       .    1.145 0.05633        .       .
+#> lambda10        .       .        .       .        .       .        .       .        .       .    1.000       .
+#> lambda11        .       .        .       .        .       .        .       .        .       .    0.874 0.04417
+#> lambda12        .       .        .       .        .       .        .       .        .       .    1.096 0.04874
 #> 
 #> Random effects:
 #>  Groups   Name        Variance Std.Dev. Corr          
@@ -626,8 +611,6 @@ summary(judge_galamm)
 #> item12    2.470    0.02599   95.07        0
 ```
 
-## Model with a Product of Factor Loadings
 
-Finally, in their Example 2, @rockwoodEstimatingComplexMeasurement2019 consider a model which contains products of factor loadings. At the moment, such a model cannot be estimated using galamm, although we will work on adding it in the future.
 
 # References

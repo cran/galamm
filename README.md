@@ -16,11 +16,9 @@ coverage](https://codecov.io/gh/LCBC-UiO/galamm/branch/main/graph/badge.svg)](ht
 <!-- badges: end -->
 
 galamm estimates generalized additive latent and mixed models (GALAMMs).
-The model framework and the computational algorithms were introduced in
-Sørensen, Fjell, and Walhovd
-([2023](#ref-sorensenLongitudinalModelingAgeDependent2023)), which is
-[freely available from
-Psychometrika](https://doi.org/10.1007/s11336-023-09910-z). It is an
+This is the first package implementing the model framework and the
+computational algorithms introduced in Sørensen, Fjell, and Walhovd
+([2023](#ref-sorensenLongitudinalModelingAgeDependent2023)). It is an
 extension of the GLLAMM framework for multilevel latent variable
 modeling detailed in Rabe-Hesketh, Skrondal, and Pickles
 ([2004](#ref-rabe-heskethGeneralizedMultilevelStructural2004)) and
@@ -90,7 +88,9 @@ supported by [RcppEigen](https://cran.r-project.org/package=RcppEigen)
 ([Bates and Eddelbuettel 2013](#ref-batesFastElegantNumerical2013)) and
 automatic differentiation using the C++ library
 [autodiff](https://autodiff.github.io/) ([Leal
-2018](#ref-lealAutodiffModernFast2018)).
+2018](#ref-lealAutodiffModernFast2018)). Scaling of the algorithm is
+investigated further in [the vignette on computational
+scaling](https://lcbc-uio.github.io/galamm/articles/scaling.html).
 
 ## Where Do I Start?
 
@@ -147,8 +147,8 @@ mixed_resp <- galamm(
   family = c(gaussian, binomial),
   family_mapping = ifelse(mresp$itemgroup == "a", 1L, 2L),
   load.var = "itemgroup",
-  lambda = list(matrix(c(1, NA), ncol = 1)),
-  factor = list("loading")
+  lambda = matrix(c(1, NA), ncol = 1),
+  factor = "loading"
 )
 ```
 
@@ -213,8 +213,8 @@ mod <- galamm(
     (0 + loading | id / timepoint),
   data = dat,
   load.var = "item",
-  lambda = list(loading_matrix),
-  factor = list("loading")
+  lambda = loading_matrix,
+  factor = "loading"
 )
 ```
 

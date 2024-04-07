@@ -2,11 +2,16 @@ factor_loadings <- function(object) {
   UseMethod("factor_loadings")
 }
 
-#' Extract factor loadings from galamm object
+#' @title Extract factor loadings from galamm object
 #'
 #' @aliases factor_loadings factor_loadings.galamm
 #' @export factor_loadings
 #' @export
+#'
+#' @srrstats {G1.4} Function documented with roxygen2.
+#' @srrstats {G2.1a} Expected data types provided for all inputs.
+#' @srrstats {G2.4,G2.4c} as.character() used to define dimnames of the returned
+#'   object.
 #'
 #' @param object Object of class \code{galamm} returned from
 #'   \code{\link{galamm}}.
@@ -21,8 +26,8 @@ factor_loadings <- function(object) {
 #'   [confint.galamm()] for confidence intervals, and [coef.galamm()] for
 #'   coefficients more generally.
 #'
-#' @author The example for this function comes from \code{PLmixed}, with
-#'   authors Nicholas Rockwood and Minjeong Jeon
+#' @author The example for this function comes from \code{PLmixed}, with authors
+#'   Nicholas Rockwood and Minjeong Jeon
 #'   \insertCite{rockwoodEstimatingComplexMeasurement2019}{galamm}.
 #'
 #' @family details of model fit
@@ -42,7 +47,7 @@ factor_loadings <- function(object) {
 #' # Estimate model
 #' mod <- galamm(y ~ item + (0 + ability | sid) + (0 + ability | school),
 #'   data = IRTsub, family = binomial, load.var = "item",
-#'   factor = list("ability"), lambda = list(loading_matrix)
+#'   factor = "ability", lambda = loading_matrix
 #' )
 #'
 #' # Show estimated factor loadings, with standard errors
@@ -53,7 +58,7 @@ factor_loadings.galamm <- function(object) {
     return(invisible(NULL))
   }
 
-  lambda_tmp_est <- lambda_tmp_se <- object$parameters$lambda_dummy[[1]]
+  lambda_tmp_est <- lambda_tmp_se <- object$parameters$lambda_dummy
   lambda_tmp_se[lambda_tmp_se %in% c(0, 1)] <- NA_real_
 
   lambda_tmp_est[lambda_tmp_est > 1] <-
@@ -61,7 +66,7 @@ factor_loadings.galamm <- function(object) {
   lambda_tmp_se[!is.na(lambda_tmp_se)] <-
     sqrt(diag(vcov(object, parm = "lambda")))
 
-  nn <- nrow(object$parameters$lambda_dummy[[1]])
+  nn <- nrow(object$parameters$lambda_dummy)
   ret <- matrix(rbind(lambda_tmp_est, lambda_tmp_se),
     nrow = nrow(lambda_tmp_est),
     dimnames = list(
@@ -72,7 +77,7 @@ factor_loadings.galamm <- function(object) {
 
   lix <- length(object$parameters$lambda_interaction_inds)
   if (lix > 0) {
-    vars <- unlist(lapply(object$model$factor_interactions[[1]], function(x) {
+    vars <- unlist(lapply(object$model$factor_interactions, function(x) {
       attr(stats::terms(x), "term.labels")
     }))
 

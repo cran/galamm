@@ -10,21 +10,29 @@ t2l(..., factor = NULL)
 \arguments{
 \item{...}{Arguments passed on to \code{mgcv::t2}.}
 
-\item{factor}{Optional character argument specifying the loading variable.}
+\item{factor}{Optional character of length one specifying the loading
+variable. Case sensitive.}
 }
 \value{
 An object of class \code{xx.smooth.spec}, where \code{xx} is a basis
-identifying code given by the \code{bs} argument of \code{t2}.
-It differs from the smooth returned by \code{mgcv::s} in
-that it has an additional attribute named \code{"factor"} which specifies
-any factor loading which this smooth term should be multiplied with in
-order to produce the observed outcome.
+identifying code given by the \code{bs} argument of \code{t2}. It differs
+from the smooth returned by \code{mgcv::s} in that it has an additional
+attribute named \code{"factor"} which specifies any factor loading which
+this smooth term should be multiplied with in order to produce the observed
+outcome.
 }
 \description{
-This is a very thin wrapper around \code{mgcv::t2}. It enables the
-specification of loading variables for smooth terms. The last letter "l",
-which stands for "loading", has been added to avoid namespace conflicts
-with \code{mgcv} and \code{gamm4}.
+This is a very thin wrapper around \code{mgcv::t2}. It enables
+the specification of loading variables for smooth terms. The last letter
+"l", which stands for "loading", has been added to avoid namespace
+conflicts with \code{mgcv} and \code{gamm4}.
+}
+\details{
+The documentation of the function \code{mgcv::t2} should be consulted
+for details on how to properly set up smooth terms. In particular, note
+that these terms distinguish between ordered and unordered factor terms
+in the \code{by} variable, which can be provided in \code{...} and is
+forwarded to \code{mgcv::t2}.
 }
 \examples{
 # Linear mixed model with factor structures
@@ -36,8 +44,8 @@ mod <- galamm(
   formula = y ~ 0 + item + t2l(x, k = 4, factor = "loading"),
   data = dat,
   load.var = "item",
-  lambda = list(loading_matrix),
-  factor = list("loading")
+  lambda = loading_matrix,
+  factor = "loading"
 )
 
 # Model with four thin-plate regression splines as basis functions
@@ -46,8 +54,8 @@ mod <- galamm(
     t2l(x, bs = "tp", k = 4, factor = "loading"),
   data = dat,
   load.var = "item",
-  lambda = list(loading_matrix),
-  factor = list("loading")
+  lambda = loading_matrix,
+  factor = "loading"
 )
 
 }

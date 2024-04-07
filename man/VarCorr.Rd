@@ -16,7 +16,7 @@ to 1.}
 \item{...}{Other arguments passed onto other methods. Currently not used.}
 }
 \value{
-An object of class \code{VarCorr.galamm}.
+An object of class \code{c("VarCorr.galamm", "VarCorr.merMod")}.
 }
 \description{
 Extract variance and correlation components from model
@@ -32,6 +32,10 @@ mod <- galamm(
 # Extract information on variance and covariance
 VarCorr(mod)
 
+# Convert to data frame
+# (this invokes lme4's function as.data.frame.VarCorr.merMod)
+as.data.frame(VarCorr(mod))
+
 }
 \seealso{
 \code{\link[=print.VarCorr.galamm]{print.VarCorr.galamm()}} for the print function.
@@ -44,8 +48,10 @@ Other details of model fit:
 \code{\link{family.galamm}()},
 \code{\link{fitted.galamm}()},
 \code{\link{fixef}()},
+\code{\link{formula.galamm}()},
 \code{\link{llikAIC}()},
 \code{\link{logLik.galamm}()},
+\code{\link{nobs.galamm}()},
 \code{\link{predict.galamm}()},
 \code{\link{print.VarCorr.galamm}()},
 \code{\link{ranef.galamm}()},

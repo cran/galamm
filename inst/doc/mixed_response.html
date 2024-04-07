@@ -439,8 +439,8 @@ factor loading. In <code>formula</code>, we state
 by <code>id</code>, has a given level. <code>level</code> is not an
 element of the <code>mresp</code> data, but is instead the factor onto
 which the loading matrix loads. We identify this with the argument
-<code>factor = list(&quot;level&quot;)</code>. We could have chosen any other name
-for <code>&quot;level&quot;</code>, except for names that are already columns in
+<code>factor = &quot;level&quot;</code>. We could have chosen any other name for
+<code>&quot;level&quot;</code>, except for names that are already columns in
 <code>mresp</code>.</p>
 <p>We also need to define the response families, with the vector</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>families <span class="ot">&lt;-</span> <span class="fu">c</span>(gaussian, binomial)</span></code></pre></div>
@@ -456,8 +456,8 @@ family, which we do with a family mapping. The values in
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="at">family =</span> families,</span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="at">family_mapping =</span> family_mapping,</span>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="at">load.var =</span> <span class="st">&quot;itemgroup&quot;</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="at">lambda =</span> <span class="fu">list</span>(loading_matrix),</span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="at">factor =</span> <span class="fu">list</span>(<span class="st">&quot;level&quot;</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="at">lambda =</span> loading_matrix,</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="at">factor =</span> <span class="st">&quot;level&quot;</span></span>
 <span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>)</span></code></pre></div>
 <p>We can also look at its summary output.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">summary</span>(mixed_resp)</span>
@@ -468,24 +468,20 @@ family, which we do with a family mapping. The values in
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt;      AIC      BIC   logLik deviance df.resid </span></span>
 <span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt;   9248.7   9280.2  -4619.3   3633.1     3995 </span></span>
 <span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; Scaled residuals: </span></span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; -3.5360 -0.7078  0.2156  0.6456  2.5978 </span></span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; Lambda:</span></span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt;         level      SE</span></span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; lambda1 1.000       .</span></span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; lambda2 1.095 0.09982</span></span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; Random effects:</span></span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt;  Groups Name  Variance Std.Dev.</span></span>
-<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt;  id     level 1.05     1.025   </span></span>
-<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; Number of obs: 4000, groups:  id, 1000</span></span>
-<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt; Fixed effects:</span></span>
-<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error z value  Pr(&gt;|z|)</span></span>
-<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="co">#&gt; (Intercept)    0.041    0.05803  0.7065 4.799e-01</span></span>
-<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="co">#&gt; x              0.971    0.08594 11.2994 1.321e-29</span></span></code></pre></div>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; Lambda:</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt;         level      SE</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; lambda1 1.000       .</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; lambda2 1.095 0.09982</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; Random effects:</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt;  Groups Name  Variance Std.Dev.</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt;  id     level 1.05     1.025   </span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; Number of obs: 4000, groups:  id, 1000</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; Fixed effects:</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error z value  Pr(&gt;|z|)</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; (Intercept)    0.041    0.05803  0.7065 4.799e-01</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt; x              0.971    0.08594 11.2994 1.321e-29</span></span></code></pre></div>
 <div id="mixed-response-and-heteroscedastic-residuals" class="section level3">
 <h3>Mixed Response and Heteroscedastic Residuals</h3>
 <p>Mixed response models can be combined with heteroscedastic residuals,
@@ -533,23 +529,19 @@ function.</p>
 <span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt;      AIC      BIC   logLik deviance df.resid </span></span>
 <span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt;  12356.9  12388.3  -6173.4  31426.4     3995 </span></span>
 <span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; Scaled residuals: </span></span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt;      Min       1Q   Median       3Q      Max </span></span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt; -15.2275  -0.4025   0.1262   0.6757  16.0284 </span></span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; Random effects:</span></span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt;  Groups Name        Variance Std.Dev.</span></span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt;  id     (Intercept) 0        0       </span></span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt; Number of obs: 4000, groups:  id, 1000</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; Random effects:</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt;  Groups Name        Variance Std.Dev.</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt;  id     (Intercept) 0        0       </span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; Number of obs: 4000, groups:  id, 1000</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; Variance function:</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt;       a       b </span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt; 1.00000 0.07756 </span></span>
 <span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="co">#&gt; Variance function:</span></span>
-<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="co">#&gt;       a       b </span></span>
-<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co">#&gt; 1.00000 0.07756 </span></span>
-<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co">#&gt; Fixed effects:</span></span>
-<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error z value  Pr(&gt;|z|)</span></span>
-<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt; (Intercept)  0.01523    0.06303  0.2416 8.091e-01</span></span>
-<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co">#&gt; x            0.99563    0.11153  8.9267 4.388e-19</span></span></code></pre></div>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="co">#&gt; Fixed effects:</span></span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error z value  Pr(&gt;|z|)</span></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co">#&gt; (Intercept)  0.01523    0.06303  0.2416 8.091e-01</span></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#&gt; x            0.99563    0.11153  8.9267 4.388e-19</span></span></code></pre></div>
 </div>
 </div>
 <div id="covariate-measurement-error-model" class="section level2">
@@ -709,9 +701,9 @@ factor loadings defined in the loading matrix.</p>
 <span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="at">data =</span> diet,</span>
 <span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>  <span class="at">family =</span> families,</span>
 <span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  <span class="at">family_mapping =</span> family_mapping,</span>
-<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>  <span class="at">factor =</span> <span class="fu">list</span>(<span class="st">&quot;loading&quot;</span>),</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>  <span class="at">factor =</span> <span class="st">&quot;loading&quot;</span>,</span>
 <span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>  <span class="at">load.var =</span> <span class="st">&quot;item&quot;</span>,</span>
-<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>  <span class="at">lambda =</span> <span class="fu">list</span>(loading_matrix)</span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>  <span class="at">lambda =</span> loading_matrix</span>
 <span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>)</span></code></pre></div>
 <p>Looking at the summary output, however, we see a warning that the
 Hessian matrix is rank deficient.</p>
@@ -725,32 +717,28 @@ Hessian matrix is rank deficient.</p>
 <span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a><span class="co">#&gt;      AIC      BIC   logLik deviance df.resid </span></span>
 <span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="co">#&gt;   2837.6   2892.9  -1406.8  12529.3      730 </span></span>
 <span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a><span class="co">#&gt; Scaled residuals: </span></span>
-<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a><span class="co">#&gt;      Min       1Q   Median       3Q      Max </span></span>
-<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a><span class="co">#&gt; -10.1375  -0.4389  -0.3522   0.2743  27.3350 </span></span>
-<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a><span class="co">#&gt; Lambda:</span></span>
-<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a><span class="co">#&gt;         loading SE</span></span>
-<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a><span class="co">#&gt; lambda1   1.000  .</span></span>
-<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a><span class="co">#&gt; lambda2   1.000  .</span></span>
-<span id="cb19-19"><a href="#cb19-19" tabindex="-1"></a><span class="co">#&gt; lambda3  -2.026  .</span></span>
-<span id="cb19-20"><a href="#cb19-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb19-21"><a href="#cb19-21" tabindex="-1"></a><span class="co">#&gt; Random effects:</span></span>
-<span id="cb19-22"><a href="#cb19-22" tabindex="-1"></a><span class="co">#&gt;  Groups Name    Variance Std.Dev.</span></span>
-<span id="cb19-23"><a href="#cb19-23" tabindex="-1"></a><span class="co">#&gt;  id     loading 0        0       </span></span>
-<span id="cb19-24"><a href="#cb19-24" tabindex="-1"></a><span class="co">#&gt; Number of obs: 742, groups:  id, 333</span></span>
-<span id="cb19-25"><a href="#cb19-25" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb19-26"><a href="#cb19-26" tabindex="-1"></a><span class="co">#&gt; Fixed effects:</span></span>
-<span id="cb19-27"><a href="#cb19-27" tabindex="-1"></a><span class="co">#&gt;               Estimate Std. Error z value Pr(&gt;|z|)</span></span>
-<span id="cb19-28"><a href="#cb19-28" tabindex="-1"></a><span class="co">#&gt; chd           -1.78692         NA      NA       NA</span></span>
-<span id="cb19-29"><a href="#cb19-29" tabindex="-1"></a><span class="co">#&gt; fiber         17.96184         NA      NA       NA</span></span>
-<span id="cb19-30"><a href="#cb19-30" tabindex="-1"></a><span class="co">#&gt; fiber2        -0.64927         NA      NA       NA</span></span>
-<span id="cb19-31"><a href="#cb19-31" tabindex="-1"></a><span class="co">#&gt; chd:age        0.06682         NA      NA       NA</span></span>
-<span id="cb19-32"><a href="#cb19-32" tabindex="-1"></a><span class="co">#&gt; chd:bus       -0.06882         NA      NA       NA</span></span>
-<span id="cb19-33"><a href="#cb19-33" tabindex="-1"></a><span class="co">#&gt; fiber:age     -0.20480         NA      NA       NA</span></span>
-<span id="cb19-34"><a href="#cb19-34" tabindex="-1"></a><span class="co">#&gt; fiber:bus     -1.69601         NA      NA       NA</span></span>
-<span id="cb19-35"><a href="#cb19-35" tabindex="-1"></a><span class="co">#&gt; chd:age:bus   -0.04934         NA      NA       NA</span></span>
-<span id="cb19-36"><a href="#cb19-36" tabindex="-1"></a><span class="co">#&gt; fiber:age:bus  0.16097         NA      NA       NA</span></span></code></pre></div>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a><span class="co">#&gt; Lambda:</span></span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a><span class="co">#&gt;         loading SE</span></span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a><span class="co">#&gt; lambda1   1.000  .</span></span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a><span class="co">#&gt; lambda2   1.000  .</span></span>
+<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a><span class="co">#&gt; lambda3  -2.026  .</span></span>
+<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a><span class="co">#&gt; Random effects:</span></span>
+<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a><span class="co">#&gt;  Groups Name    Variance Std.Dev.</span></span>
+<span id="cb19-19"><a href="#cb19-19" tabindex="-1"></a><span class="co">#&gt;  id     loading 0        0       </span></span>
+<span id="cb19-20"><a href="#cb19-20" tabindex="-1"></a><span class="co">#&gt; Number of obs: 742, groups:  id, 333</span></span>
+<span id="cb19-21"><a href="#cb19-21" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb19-22"><a href="#cb19-22" tabindex="-1"></a><span class="co">#&gt; Fixed effects:</span></span>
+<span id="cb19-23"><a href="#cb19-23" tabindex="-1"></a><span class="co">#&gt;               Estimate Std. Error z value Pr(&gt;|z|)</span></span>
+<span id="cb19-24"><a href="#cb19-24" tabindex="-1"></a><span class="co">#&gt; chd           -1.78692         NA      NA       NA</span></span>
+<span id="cb19-25"><a href="#cb19-25" tabindex="-1"></a><span class="co">#&gt; fiber         17.96184         NA      NA       NA</span></span>
+<span id="cb19-26"><a href="#cb19-26" tabindex="-1"></a><span class="co">#&gt; fiber2        -0.64927         NA      NA       NA</span></span>
+<span id="cb19-27"><a href="#cb19-27" tabindex="-1"></a><span class="co">#&gt; chd:age        0.06682         NA      NA       NA</span></span>
+<span id="cb19-28"><a href="#cb19-28" tabindex="-1"></a><span class="co">#&gt; chd:bus       -0.06882         NA      NA       NA</span></span>
+<span id="cb19-29"><a href="#cb19-29" tabindex="-1"></a><span class="co">#&gt; fiber:age     -0.20480         NA      NA       NA</span></span>
+<span id="cb19-30"><a href="#cb19-30" tabindex="-1"></a><span class="co">#&gt; fiber:bus     -1.69601         NA      NA       NA</span></span>
+<span id="cb19-31"><a href="#cb19-31" tabindex="-1"></a><span class="co">#&gt; chd:age:bus   -0.04934         NA      NA       NA</span></span>
+<span id="cb19-32"><a href="#cb19-32" tabindex="-1"></a><span class="co">#&gt; fiber:age:bus  0.16097         NA      NA       NA</span></span></code></pre></div>
 <p>We suspect that this is a convergence issue of the algorithm, and
 start by simply turning a lever to make the algorithm more verbose. The
 argument <code>trace = 3</code> is passed onto <code>optim</code>.</p>
@@ -759,9 +747,9 @@ argument <code>trace = 3</code> is passed onto <code>optim</code>.</p>
 <span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  <span class="at">data =</span> diet,</span>
 <span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  <span class="at">family =</span> families,</span>
 <span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  <span class="at">family_mapping =</span> family_mapping,</span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  <span class="at">factor =</span> <span class="fu">list</span>(<span class="st">&quot;loading&quot;</span>),</span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  <span class="at">factor =</span> <span class="st">&quot;loading&quot;</span>,</span>
 <span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>  <span class="at">load.var =</span> <span class="st">&quot;item&quot;</span>,</span>
-<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>  <span class="at">lambda =</span> <span class="fu">list</span>(loading_matrix),</span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>  <span class="at">lambda =</span> loading_matrix,</span>
 <span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">galamm_control</span>(<span class="at">optim_control =</span> <span class="fu">list</span>(<span class="at">trace =</span> <span class="dv">3</span>))</span>
 <span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a>)</span>
 <span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a><span class="co">#&gt; N = 11, M = 20 machine precision = 2.22045e-16</span></span>
@@ -795,9 +783,9 @@ with the <code>start</code> argument.</p>
 <span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>  <span class="at">data =</span> diet,</span>
 <span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>  <span class="at">family =</span> families,</span>
 <span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>  <span class="at">family_mapping =</span> family_mapping,</span>
-<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>  <span class="at">factor =</span> <span class="fu">list</span>(<span class="st">&quot;loading&quot;</span>),</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>  <span class="at">factor =</span> <span class="st">&quot;loading&quot;</span>,</span>
 <span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>  <span class="at">load.var =</span> <span class="st">&quot;item&quot;</span>,</span>
-<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>  <span class="at">lambda =</span> <span class="fu">list</span>(loading_matrix),</span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>  <span class="at">lambda =</span> loading_matrix,</span>
 <span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>  <span class="at">start =</span> <span class="fu">list</span>(<span class="at">theta =</span> <span class="dv">10</span>),</span>
 <span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">galamm_control</span>(<span class="at">optim_control =</span> <span class="fu">list</span>(<span class="at">trace =</span> <span class="dv">3</span>))</span>
 <span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>)</span>
@@ -840,32 +828,28 @@ are very close to the corresponding model in Table 14.1 of <span class="citation
 <span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a><span class="co">#&gt;      AIC      BIC   logLik deviance df.resid </span></span>
 <span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a><span class="co">#&gt;   2768.3   2823.6  -1372.2   2002.9      730 </span></span>
 <span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a><span class="co">#&gt; Scaled residuals: </span></span>
-<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
-<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a><span class="co">#&gt; -258547      -1       0       0      66 </span></span>
-<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a><span class="co">#&gt; Lambda:</span></span>
-<span id="cb22-15"><a href="#cb22-15" tabindex="-1"></a><span class="co">#&gt;         loading      SE</span></span>
-<span id="cb22-16"><a href="#cb22-16" tabindex="-1"></a><span class="co">#&gt; lambda1  1.0000       .</span></span>
-<span id="cb22-17"><a href="#cb22-17" tabindex="-1"></a><span class="co">#&gt; lambda2  1.0000       .</span></span>
-<span id="cb22-18"><a href="#cb22-18" tabindex="-1"></a><span class="co">#&gt; lambda3 -0.1339 0.05121</span></span>
-<span id="cb22-19"><a href="#cb22-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb22-20"><a href="#cb22-20" tabindex="-1"></a><span class="co">#&gt; Random effects:</span></span>
-<span id="cb22-21"><a href="#cb22-21" tabindex="-1"></a><span class="co">#&gt;  Groups Name    Variance Std.Dev.</span></span>
-<span id="cb22-22"><a href="#cb22-22" tabindex="-1"></a><span class="co">#&gt;  id     loading 23.64    4.862   </span></span>
-<span id="cb22-23"><a href="#cb22-23" tabindex="-1"></a><span class="co">#&gt; Number of obs: 742, groups:  id, 333</span></span>
-<span id="cb22-24"><a href="#cb22-24" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb22-25"><a href="#cb22-25" tabindex="-1"></a><span class="co">#&gt; Fixed effects:</span></span>
-<span id="cb22-26"><a href="#cb22-26" tabindex="-1"></a><span class="co">#&gt;               Estimate Std. Error  z value   Pr(&gt;|z|)</span></span>
-<span id="cb22-27"><a href="#cb22-27" tabindex="-1"></a><span class="co">#&gt; chd           -1.91520    0.27229 -7.03361  2.013e-12</span></span>
-<span id="cb22-28"><a href="#cb22-28" tabindex="-1"></a><span class="co">#&gt; fiber         17.94834    0.48686 36.86566 1.641e-297</span></span>
-<span id="cb22-29"><a href="#cb22-29" tabindex="-1"></a><span class="co">#&gt; fiber2         0.22406    0.41783  0.53624  5.918e-01</span></span>
-<span id="cb22-30"><a href="#cb22-30" tabindex="-1"></a><span class="co">#&gt; chd:age        0.06613    0.05931  1.11515  2.648e-01</span></span>
-<span id="cb22-31"><a href="#cb22-31" tabindex="-1"></a><span class="co">#&gt; chd:bus       -0.02900    0.34355 -0.08441  9.327e-01</span></span>
-<span id="cb22-32"><a href="#cb22-32" tabindex="-1"></a><span class="co">#&gt; fiber:age     -0.21207    0.10090 -2.10172  3.558e-02</span></span>
-<span id="cb22-33"><a href="#cb22-33" tabindex="-1"></a><span class="co">#&gt; fiber:bus     -1.68278    0.63721 -2.64084  8.270e-03</span></span>
-<span id="cb22-34"><a href="#cb22-34" tabindex="-1"></a><span class="co">#&gt; chd:age:bus   -0.04998    0.06507 -0.76812  4.424e-01</span></span>
-<span id="cb22-35"><a href="#cb22-35" tabindex="-1"></a><span class="co">#&gt; fiber:age:bus  0.16821    0.11223  1.49882  1.339e-01</span></span></code></pre></div>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a><span class="co">#&gt; Lambda:</span></span>
+<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a><span class="co">#&gt;         loading      SE</span></span>
+<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a><span class="co">#&gt; lambda1  1.0000       .</span></span>
+<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a><span class="co">#&gt; lambda2  1.0000       .</span></span>
+<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a><span class="co">#&gt; lambda3 -0.1339 0.05121</span></span>
+<span id="cb22-15"><a href="#cb22-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-16"><a href="#cb22-16" tabindex="-1"></a><span class="co">#&gt; Random effects:</span></span>
+<span id="cb22-17"><a href="#cb22-17" tabindex="-1"></a><span class="co">#&gt;  Groups Name    Variance Std.Dev.</span></span>
+<span id="cb22-18"><a href="#cb22-18" tabindex="-1"></a><span class="co">#&gt;  id     loading 23.64    4.862   </span></span>
+<span id="cb22-19"><a href="#cb22-19" tabindex="-1"></a><span class="co">#&gt; Number of obs: 742, groups:  id, 333</span></span>
+<span id="cb22-20"><a href="#cb22-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-21"><a href="#cb22-21" tabindex="-1"></a><span class="co">#&gt; Fixed effects:</span></span>
+<span id="cb22-22"><a href="#cb22-22" tabindex="-1"></a><span class="co">#&gt;               Estimate Std. Error  z value   Pr(&gt;|z|)</span></span>
+<span id="cb22-23"><a href="#cb22-23" tabindex="-1"></a><span class="co">#&gt; chd           -1.91520    0.27229 -7.03361  2.013e-12</span></span>
+<span id="cb22-24"><a href="#cb22-24" tabindex="-1"></a><span class="co">#&gt; fiber         17.94834    0.48686 36.86566 1.641e-297</span></span>
+<span id="cb22-25"><a href="#cb22-25" tabindex="-1"></a><span class="co">#&gt; fiber2         0.22406    0.41783  0.53624  5.918e-01</span></span>
+<span id="cb22-26"><a href="#cb22-26" tabindex="-1"></a><span class="co">#&gt; chd:age        0.06613    0.05931  1.11515  2.648e-01</span></span>
+<span id="cb22-27"><a href="#cb22-27" tabindex="-1"></a><span class="co">#&gt; chd:bus       -0.02900    0.34355 -0.08441  9.327e-01</span></span>
+<span id="cb22-28"><a href="#cb22-28" tabindex="-1"></a><span class="co">#&gt; fiber:age     -0.21207    0.10090 -2.10172  3.558e-02</span></span>
+<span id="cb22-29"><a href="#cb22-29" tabindex="-1"></a><span class="co">#&gt; fiber:bus     -1.68278    0.63721 -2.64084  8.270e-03</span></span>
+<span id="cb22-30"><a href="#cb22-30" tabindex="-1"></a><span class="co">#&gt; chd:age:bus   -0.04998    0.06507 -0.76812  4.424e-01</span></span>
+<span id="cb22-31"><a href="#cb22-31" tabindex="-1"></a><span class="co">#&gt; fiber:age:bus  0.16821    0.11223  1.49882  1.339e-01</span></span></code></pre></div>
 <p>Now we were able to reproduce results very close to those in Table
 14.1 on page 420 of <span class="citation">Skrondal and Rabe-Hesketh (<a href="#ref-skrondalGeneralizedLatentVariable2004">2004</a>)</span>. This
 is a useful assurance that the algorithm used by galamm is correctly
@@ -892,9 +876,9 @@ with</p>
 <span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>  <span class="at">data =</span> diet,</span>
 <span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>  <span class="at">family =</span> families,</span>
 <span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>  <span class="at">family_mapping =</span> family_mapping,</span>
-<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a>  <span class="at">factor =</span> <span class="fu">list</span>(<span class="st">&quot;loading&quot;</span>),</span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a>  <span class="at">factor =</span> <span class="st">&quot;loading&quot;</span>,</span>
 <span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a>  <span class="at">load.var =</span> <span class="st">&quot;item&quot;</span>,</span>
-<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a>  <span class="at">lambda =</span> <span class="fu">list</span>(loading_matrix),</span>
+<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a>  <span class="at">lambda =</span> loading_matrix,</span>
 <span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a>  <span class="at">start =</span> <span class="fu">list</span>(<span class="at">theta =</span> <span class="dv">10</span>),</span>
 <span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">galamm_control</span>(<span class="at">optim_control =</span> <span class="fu">list</span>(<span class="at">trace =</span> <span class="dv">3</span>))</span>
 <span id="cb24-11"><a href="#cb24-11" tabindex="-1"></a>)</span>
@@ -928,29 +912,25 @@ Rabe-Hesketh (<a href="#ref-skrondalGeneralizedLatentVariable2004">2004</a>)</sp
 <span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a><span class="co">#&gt;      AIC      BIC   logLik deviance df.resid </span></span>
 <span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a><span class="co">#&gt;   2764.0   2805.5  -1373.0   2007.9      733 </span></span>
 <span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a><span class="co">#&gt; Scaled residuals: </span></span>
-<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
-<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a><span class="co">#&gt; -280306      -1       0       0      66 </span></span>
-<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a><span class="co">#&gt; Lambda:</span></span>
-<span id="cb25-15"><a href="#cb25-15" tabindex="-1"></a><span class="co">#&gt;         loading      SE</span></span>
-<span id="cb25-16"><a href="#cb25-16" tabindex="-1"></a><span class="co">#&gt; lambda1   1.000       .</span></span>
-<span id="cb25-17"><a href="#cb25-17" tabindex="-1"></a><span class="co">#&gt; lambda2   1.000       .</span></span>
-<span id="cb25-18"><a href="#cb25-18" tabindex="-1"></a><span class="co">#&gt; lambda3  -0.136 0.05148</span></span>
-<span id="cb25-19"><a href="#cb25-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb25-20"><a href="#cb25-20" tabindex="-1"></a><span class="co">#&gt; Random effects:</span></span>
-<span id="cb25-21"><a href="#cb25-21" tabindex="-1"></a><span class="co">#&gt;  Groups Name    Variance Std.Dev.</span></span>
-<span id="cb25-22"><a href="#cb25-22" tabindex="-1"></a><span class="co">#&gt;  id     loading 23.64    4.862   </span></span>
-<span id="cb25-23"><a href="#cb25-23" tabindex="-1"></a><span class="co">#&gt; Number of obs: 742, groups:  id, 333</span></span>
-<span id="cb25-24"><a href="#cb25-24" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb25-25"><a href="#cb25-25" tabindex="-1"></a><span class="co">#&gt; Fixed effects:</span></span>
-<span id="cb25-26"><a href="#cb25-26" tabindex="-1"></a><span class="co">#&gt;               Estimate Std. Error  z value   Pr(&gt;|z|)</span></span>
-<span id="cb25-27"><a href="#cb25-27" tabindex="-1"></a><span class="co">#&gt; chd            -1.9668    0.18248 -10.7783  4.360e-27</span></span>
-<span id="cb25-28"><a href="#cb25-28" tabindex="-1"></a><span class="co">#&gt; fiber          17.9741    0.48123  37.3504 2.502e-305</span></span>
-<span id="cb25-29"><a href="#cb25-29" tabindex="-1"></a><span class="co">#&gt; fiber2          0.2238    0.41779   0.5358  5.921e-01</span></span>
-<span id="cb25-30"><a href="#cb25-30" tabindex="-1"></a><span class="co">#&gt; fiber:age      -0.1896    0.09914  -1.9122  5.585e-02</span></span>
-<span id="cb25-31"><a href="#cb25-31" tabindex="-1"></a><span class="co">#&gt; fiber:bus      -1.6991    0.62529  -2.7173  6.581e-03</span></span>
-<span id="cb25-32"><a href="#cb25-32" tabindex="-1"></a><span class="co">#&gt; fiber:age:bus   0.1515    0.11012   1.3760  1.688e-01</span></span></code></pre></div>
+<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a><span class="co">#&gt; Lambda:</span></span>
+<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a><span class="co">#&gt;         loading      SE</span></span>
+<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a><span class="co">#&gt; lambda1   1.000       .</span></span>
+<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a><span class="co">#&gt; lambda2   1.000       .</span></span>
+<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a><span class="co">#&gt; lambda3  -0.136 0.05148</span></span>
+<span id="cb25-15"><a href="#cb25-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb25-16"><a href="#cb25-16" tabindex="-1"></a><span class="co">#&gt; Random effects:</span></span>
+<span id="cb25-17"><a href="#cb25-17" tabindex="-1"></a><span class="co">#&gt;  Groups Name    Variance Std.Dev.</span></span>
+<span id="cb25-18"><a href="#cb25-18" tabindex="-1"></a><span class="co">#&gt;  id     loading 23.64    4.862   </span></span>
+<span id="cb25-19"><a href="#cb25-19" tabindex="-1"></a><span class="co">#&gt; Number of obs: 742, groups:  id, 333</span></span>
+<span id="cb25-20"><a href="#cb25-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb25-21"><a href="#cb25-21" tabindex="-1"></a><span class="co">#&gt; Fixed effects:</span></span>
+<span id="cb25-22"><a href="#cb25-22" tabindex="-1"></a><span class="co">#&gt;               Estimate Std. Error  z value   Pr(&gt;|z|)</span></span>
+<span id="cb25-23"><a href="#cb25-23" tabindex="-1"></a><span class="co">#&gt; chd            -1.9668    0.18248 -10.7783  4.360e-27</span></span>
+<span id="cb25-24"><a href="#cb25-24" tabindex="-1"></a><span class="co">#&gt; fiber          17.9741    0.48123  37.3504 2.502e-305</span></span>
+<span id="cb25-25"><a href="#cb25-25" tabindex="-1"></a><span class="co">#&gt; fiber2          0.2238    0.41779   0.5358  5.921e-01</span></span>
+<span id="cb25-26"><a href="#cb25-26" tabindex="-1"></a><span class="co">#&gt; fiber:age      -0.1896    0.09914  -1.9122  5.585e-02</span></span>
+<span id="cb25-27"><a href="#cb25-27" tabindex="-1"></a><span class="co">#&gt; fiber:bus      -1.6991    0.62529  -2.7173  6.581e-03</span></span>
+<span id="cb25-28"><a href="#cb25-28" tabindex="-1"></a><span class="co">#&gt; fiber:age:bus   0.1515    0.11012   1.3760  1.688e-01</span></span></code></pre></div>
 <p>We can use <code>anova</code> method for galamm objects to compare
 the models. AIC and BIC favor the simpler model with only indirect
 effects.</p>
@@ -977,8 +957,7 @@ Carroll, Raymond J., David Ruppert, Leonard A. Stefanski, and Ciprian M.
 Crainiceanu. 2006. <em>Measurement <span>Error</span> in <span>Nonlinear
 Models</span>: <span>A Modern Perspective</span></em>. 2nd ed.
 Monographs on <span>Statistics</span> and <span>Applied
-Probability</span>. <span>Boca Raton, Florida</span>: <span>John Wiley
-&amp; Sons</span>.
+Probability</span>. Boca Raton, Florida: John Wiley &amp; Sons.
 </div>
 <div id="ref-morrisDietHeartPostscript1977" class="csl-entry">
 Morris, J. N., J. W. Marr, and D. G. Clayton. 1977. <span>“Diet and
@@ -999,8 +978,7 @@ Error</span>.”</span> <em>The Stata Journal</em> 3 (4): 386–411. <a href="ht
 <div id="ref-skrondalGeneralizedLatentVariable2004" class="csl-entry">
 Skrondal, Anders, and Sophia Rabe-Hesketh. 2004. <em>Generalized Latent
 Variable Modeling</em>. Interdisciplinary <span>Statistics
-Series</span>. <span>Boca Raton, Florida</span>: <span>Chapman and
-Hall/CRC</span>.
+Series</span>. Boca Raton, Florida: <span>Chapman and Hall/CRC</span>.
 </div>
 </div>
 </div>

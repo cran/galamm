@@ -7,9 +7,10 @@
 \method{nobs}{galamm}(object, ...)
 }
 \arguments{
-\item{object}{galamm object}
+\item{object}{An object of class \code{galamm} returned from
+\code{\link{galamm}}.}
 
-\item{...}{other arguments}
+\item{...}{Optional arguments passed on to other methods. Currently not used.}
 }
 \value{
 A number
@@ -17,4 +18,34 @@ A number
 \description{
 Extract the Number of Observations from a galamm Fit
 }
-\keyword{internal}
+\examples{
+# Example model from lme4
+data(sleepstudy, package = "lme4")
+fm1 <- galamm(Reaction ~ Days + (Days | Subject), data = sleepstudy)
+
+# There are 180 observations, which matches the number of rows in sleepstudy
+nobs(fm1)
+nrow(sleepstudy)
+
+}
+\seealso{
+Other details of model fit: 
+\code{\link{VarCorr}()},
+\code{\link{coef.galamm}()},
+\code{\link{confint.galamm}()},
+\code{\link{deviance.galamm}()},
+\code{\link{factor_loadings.galamm}()},
+\code{\link{family.galamm}()},
+\code{\link{fitted.galamm}()},
+\code{\link{fixef}()},
+\code{\link{formula.galamm}()},
+\code{\link{llikAIC}()},
+\code{\link{logLik.galamm}()},
+\code{\link{predict.galamm}()},
+\code{\link{print.VarCorr.galamm}()},
+\code{\link{ranef.galamm}()},
+\code{\link{residuals.galamm}()},
+\code{\link{sigma.galamm}()},
+\code{\link{vcov.galamm}()}
+}
+\concept{details of model fit}
