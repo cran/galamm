@@ -49,7 +49,7 @@ overflow: visible;
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -148,6 +148,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 div.csl-bib-body { }
 div.csl-entry {
 clear: both;
+margin-bottom: 0em;
 }
 .hanging div.csl-entry {
 margin-left:2em;
@@ -510,7 +511,7 @@ is nonzero. Hence, the binomially distributed responses don’t have any
 heteroscedastic residuals estimated, since for these observations the
 dispersion parameter <span class="math inline">\(\phi\)</span> is fixed
 to 1. We also ignore the factor loadings for simplicity.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>family_mapping <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(mresp<span class="sc">$</span>itemgroup <span class="sc">==</span> <span class="st">&quot;a&quot;</span>, 1L, 2L)</span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>family_mapping <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(mresp<span class="sc">$</span>itemgroup <span class="sc">==</span> <span class="st">&quot;a&quot;</span>, <span class="dv">1</span><span class="dt">L</span>, <span class="dv">2</span><span class="dt">L</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">galamm</span>(</span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="at">formula =</span> y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id),</span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="at">weights =</span> <span class="sc">~</span> (<span class="dv">0</span> <span class="sc">+</span> isgauss <span class="sc">|</span> grp),</span>
@@ -946,7 +947,7 @@ effects.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="unnumbered">References</h1>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-batesFittingLinearMixedEffects2015" class="csl-entry">
 Bates, Douglas M, Martin Mächler, Ben Bolker, and Steve Walker. 2015.
 <span>“Fitting <span>Linear Mixed-Effects Models Using</span>
