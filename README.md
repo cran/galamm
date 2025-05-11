@@ -7,6 +7,8 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/galamm)](https://cran.r-project.org/package=galamm)
+[![Status at rOpenSci Software Peer
+Review](https://badges.ropensci.org/615_status.svg)](https://github.com/ropensci/software-review/issues/615)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -33,7 +35,7 @@ Many applications, particularly in the social sciences, require modeling
 capabilities beyond what is easily supported and computationally
 feasible with popular R packages like
 [mgcv](https://cran.r-project.org/package=mgcv) ([Wood
-2017](#ref-woodGeneralizedAdditiveModels2017a)),
+2017](#ref-woodGeneralizedAdditiveModels2017)),
 [lavaan](https://lavaan.ugent.be/) ([Rosseel
 2012](#ref-rosseelLavaanPackageStructural2012)),
 [lme4](https://cran.r-project.org/package=lme4) ([Bates et al.
@@ -361,7 +363,7 @@ Additive Latent and Mixed Models.” *Psychometrika* 88 (2): 456–86.
 
 </div>
 
-<div id="ref-woodGeneralizedAdditiveModels2017a" class="csl-entry">
+<div id="ref-woodGeneralizedAdditiveModels2017" class="csl-entry">
 
 Wood, Simon N. 2017. *Generalized Additive Models: An Introduction with
 R*. 2nd ed. Chapman and Hall/CRC.

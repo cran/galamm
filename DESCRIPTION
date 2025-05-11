@@ -1,6 +1,6 @@
 Package: galamm
 Title: Generalized Additive Latent and Mixed Models
-Version: 0.2.1
+Version: 0.2.2
 Authors@R: c(
     person(given = "Øystein",
            family = "Sørensen",
@@ -45,8 +45,9 @@ VignetteBuilder: knitr, rmarkdown
 RdMacros: Rdpack
 NeedsCompilation: yes
 SystemRequirements: C++17
-Packaged: 2024-08-17 11:37:04 UTC; oyss
-Author: Øystein Sørensen [aut, cre] (<https://orcid.org/0000-0003-0724-3542>),
+Packaged: 2025-05-11 19:50:26 UTC; oyss
+Author: Øystein Sørensen [aut, cre] (ORCID:
+    <https://orcid.org/0000-0003-0724-3542>),
   Douglas Bates [ctb],
   Ben Bolker [ctb],
   Martin Maechler [ctb],
@@ -56,4 +57,4 @@ Author: Øystein Sørensen [aut, cre] (<https://orcid.org/0000-0003-0724-3542>),
   Simon Wood [ctb]
 Maintainer: Øystein Sørensen <oystein.sorensen@psykologi.uio.no>
 Repository: CRAN
-Date/Publication: 2024-08-18 07:20:02 UTC
+Date/Publication: 2025-05-11 21:20:02 UTC
