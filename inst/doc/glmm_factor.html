@@ -677,11 +677,12 @@ to use <code>lme4</code>, but with factor structures or other
 nonlinearities, <code>lme4</code> no longer provides the flexibility we
 need.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>count_mod_lme4 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(</span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  <span class="at">formula =</span> y <span class="sc">~</span> lbas <span class="sc">*</span> treat <span class="sc">+</span> lage <span class="sc">+</span> v4 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> subj),</span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  <span class="at">data =</span> epilep,</span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  <span class="at">family =</span> poisson</span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="co">#&gt; Loading required package: Matrix</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>count_mod_lme4 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  <span class="at">formula =</span> y <span class="sc">~</span> lbas <span class="sc">*</span> treat <span class="sc">+</span> lage <span class="sc">+</span> v4 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> subj),</span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  <span class="at">data =</span> epilep,</span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  <span class="at">family =</span> poisson</span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>)</span></code></pre></div>
 <p>We can confirm that the diagnostic plot has the same values as for
 galamm:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">plot</span>(count_mod_lme4)</span></code></pre></div>
@@ -696,8 +697,8 @@ galamm:</p>
 <span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a><span class="co">#&gt; Formula: y ~ lbas * treat + lage + v4 + (1 | subj)</span></span>
 <span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="co">#&gt;    Data: epilep</span></span>
 <span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a><span class="co">#&gt;      AIC      BIC   logLik deviance df.resid </span></span>
-<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a><span class="co">#&gt;   1344.7   1369.0   -665.4   1330.7      229 </span></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a><span class="co">#&gt;       AIC       BIC    logLik -2*log(L)  df.resid </span></span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a><span class="co">#&gt;    1344.7    1369.0    -665.4    1330.7       229 </span></span>
 <span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a><span class="co">#&gt; Scaled residuals: </span></span>
 <span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
